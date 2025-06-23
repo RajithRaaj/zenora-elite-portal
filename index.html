@@ -277,7 +277,8 @@
         }
         /* Theme Toggle */
         .theme-toggle {
-            position: absolute;
+            /* Positioned relative to its parent .card-front now */
+            position: absolute; /* Changed to absolute to position relative to .card-front */
             top: 1.5rem;
             right: 1.5rem;
             background: rgba(255, 255, 255, 0.1);
@@ -481,13 +482,13 @@
     </div>
     <div class="particle-bg" id="particleBg"></div>
     <div class="blurred-layer"></div>
-    <button id="themeToggle" class="theme-toggle">
-        <i class="fas fa-moon text-xl text-white"></i>
-    </button>
-    <!-- Mute Toggle button removed as per request -->
+    <!-- Theme Toggle button moved inside the card-front div -->
 
     <div class="card-container" id="cardContainer">
         <div class="card card-front" id="cardFront">
+            <button id="themeToggle" class="theme-toggle">
+                <i class="fas fa-moon text-xl text-white"></i>
+            </button>
             <div id="lottie-background"></div>
             <div class="flex flex-col items-center gap-4 mt-6">
                 <img src="https://avatars.githubusercontent.com/u/74032174?v=4" alt="Profile Picture" class="profile-img" id="profileImage">
@@ -621,7 +622,6 @@
         const cardFront = document.getElementById('cardFront');
         const cardBack = document.getElementById('cardBack');
         const themeToggle = document.getElementById('themeToggle');
-        // Removed muteToggle as per request
         const smartAssistant = document.getElementById('smartAssistant');
         const chatStub = document.getElementById('chatStub');
         const toast = document.getElementById('toast');
@@ -663,10 +663,9 @@
 
         // Copy to Clipboard
         function copyToClipboard(text) {
-            // Using document.execCommand('copy') for better iframe compatibility
             const textarea = document.createElement('textarea');
             textarea.value = text;
-            textarea.style.position = 'fixed'; // Prevents scrolling to bottom of page
+            textarea.style.position = 'fixed';
             document.body.appendChild(textarea);
             textarea.focus();
             textarea.select();
@@ -708,7 +707,6 @@
             Object.keys(data.social).forEach(key => {
                 const iconElement = socialIconsContainer.querySelector(`.fa-${key}`);
                 if (iconElement) {
-                    // Find the parent <a> tag and update its href
                     const anchorElement = iconElement.closest('a');
                     if (anchorElement) {
                         anchorElement.href = data.social[key];
@@ -726,10 +724,10 @@
             profileModeButtons.forEach(button => {
                 if (button.dataset.mode === mode) {
                     button.classList.add('border-b-2', 'border-blue-400');
-                    button.classList.remove('border-transparent'); // Ensure no other border is there
+                    button.classList.remove('border-transparent');
                 } else {
                     button.classList.remove('border-b-2', 'border-blue-400');
-                    button.classList.add('border-transparent'); // Default non-active state
+                    button.classList.add('border-transparent');
                 }
             });
         }
@@ -752,7 +750,7 @@
             for (let i = 0; i < 50; i++) {
                 const particle = document.createElement('div');
                 particle.classList.add('particle');
-                const size = Math.random() * 5 + 2; // 2px to 7px
+                const size = Math.random() * 5 + 2;
                 particle.style.width = `${size}px`;
                 particle.style.height = `${size}px`;
                 particle.style.setProperty('--x', `${Math.random() * 100}vw`);
@@ -769,16 +767,15 @@
                 renderer: 'svg',
                 loop: true,
                 autoplay: true,
-                path: 'https://assets5.lottiefiles.com/private_files/lf30_jkgk378g.json' // Example: Data Stream / Abstract
+                path: 'https://assets5.lottiefiles.com/private_files/lf30_jkgk378g.json'
             });
         }
 
         // 3D Tilt Effect (using GSAP for smooth animation)
         function initTiltEffect() {
             const card = document.querySelector('.card-container');
-            const sensitivity = 0.05; // Adjust for more/less tilt
+            const sensitivity = 0.05;
 
-            // Mouse move for desktop
             document.addEventListener('mousemove', (e) => {
                 const rect = card.getBoundingClientRect();
                 const centerX = rect.left + rect.width / 2;
@@ -793,7 +790,6 @@
                 });
             });
 
-            // Reset on mouse leave
             card.addEventListener('mouseleave', () => {
                 gsap.to(card, {
                     rotationX: 0,
@@ -803,14 +799,12 @@
                 });
             });
 
-            // Device Orientation for mobile
             if (window.DeviceOrientationEvent) {
                 window.addEventListener('deviceorientation', function(event) {
-                    const gamma = event.gamma; // In x-axis, -90 to 90
-                    const beta = event.beta;   // In y-axis, -180 to 180
-                    // Map gamma/beta to smaller rotation values
-                    const tiltX = (beta / 90) * 10;  // Max 10 degrees
-                    const tiltY = (gamma / 90) * 10; // Max 10 degrees
+                    const gamma = event.gamma;
+                    const beta = event.beta;
+                    const tiltX = (beta / 90) * 10;
+                    const tiltY = (gamma / 90) * 10;
                     gsap.to(card, {
                         rotationX: tiltX,
                         rotationY: tiltY,
@@ -827,7 +821,7 @@
             setTimeout(() => {
                 loadingOverlay.style.opacity = '0';
                 setTimeout(() => loadingOverlay.style.display = 'none', 500);
-            }, 1000); // Simulate network delay
+            }, 1000);
         });
 
         // Theme Toggle
@@ -840,8 +834,6 @@
 
         // Card Flip on Click/Tap
         cardContainer.addEventListener('click', (e) => {
-            // Prevent flipping when clicking on specific interactive elements
-            // Ensure the click did not originate from within an interactive element.
             const interactiveElements = ['A', 'BUTTON', 'INPUT', 'SPAN', 'P'];
             if (e.target.closest(interactiveElements.map(tag => tag.toLowerCase()).join(','))) {
                 return;
@@ -853,12 +845,12 @@
         let touchStartX = 0;
         cardContainer.addEventListener('touchstart', (e) => {
             touchStartX = e.touches[0].clientX;
-        }, { passive: true }); // Use passive listener for better scroll performance
+        }, { passive: true });
 
         cardContainer.addEventListener('touchend', (e) => {
             const touchEndX = e.changedTouches[0].clientX;
             const deltaX = touchEndX - touchStartX;
-            if (Math.abs(deltaX) > 75) { // Threshold for a swipe
+            if (Math.abs(deltaX) > 75) {
                 flipCard();
             }
         });
@@ -897,7 +889,7 @@ END:VCARD`;
                     await navigator.share({
                         title: `Elite SpaceCard of ${profileData[currentMode].name}`,
                         text: `Check out my Elite SpaceCard: ${profileData[currentMode].name} - ${profileData[currentMode].tagline}`,
-                        url: window.location.href // Current URL of the card
+                        url: window.location.href
                     });
                     showToast("Card Shared Successfully!");
                 } catch (error) {
@@ -905,7 +897,6 @@ END:VCARD`;
                     showToast("Share failed or cancelled.");
                 }
             } else {
-                // Fallback for browsers not supporting Web Share API (e.g., WhatsApp Web)
                 const text = `Hey, check out my Elite SpaceCard: ${window.location.href}`;
                 const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(text)}`;
                 window.open(whatsappUrl, '_blank');
@@ -919,8 +910,7 @@ END:VCARD`;
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
             deferredPrompt = e;
-            // Optionally show a custom "Add to homescreen" button here
-            saveHomescreenBtn.style.display = 'block'; // Make button visible if hidden by default
+            saveHomescreenBtn.style.display = 'block';
         });
         saveHomescreenBtn.addEventListener('click', () => {
             if (deferredPrompt) {
@@ -935,17 +925,15 @@ END:VCARD`;
                 });
             } else {
                 showToast("Not installable or already installed.");
-                // For iOS, guide users to "Add to Home Screen" via browser share menu
                 if (navigator.userAgent.match(/iPhone|iPad|iPod/i)) {
-                    // Using a custom message box instead of alert()
                     const messageBox = document.createElement('div');
-                    messageBox.classList.add('toast', 'show'); // Reuse toast styles for simplicity
+                    messageBox.classList.add('toast', 'show');
                     messageBox.textContent = "To add this card to your homescreen, use the browser's 'Share' menu and select 'Add to Home Screen'.";
                     document.body.appendChild(messageBox);
                     setTimeout(() => {
                         messageBox.classList.remove('show');
                         setTimeout(() => document.body.removeChild(messageBox), 300);
-                    }, 5000); // Display for 5 seconds
+                    }, 5000);
                 }
             }
             triggerHapticFeedback();
@@ -975,13 +963,11 @@ END:VCARD`;
                 document.body.classList.add('light-theme');
                 themeToggle.innerHTML = `<i class="fas fa-sun text-xl text-white"></i>`;
             } else {
-                // Check system preference
                 if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
                     document.body.classList.add('light-theme');
                     themeToggle.innerHTML = `<i class="fas fa-sun text-xl text-white"></i>`;
                 }
             }
-            // Mute state logic removed as per request
 
             // Initial content load
             updateCardContent(currentMode);
