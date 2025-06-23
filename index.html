@@ -17,30 +17,39 @@
             --dark-card-bg: rgba(22, 27, 34, 0.7);
             --dark-border: rgba(50, 100, 150, 0.4);
             --dark-text: #e6edf3;
-            --dark-neon-glow: #0ff; /* Cyan */
+            --dark-neon-glow: #0ff;
+            /* Cyan */
             --light-bg: #f0f2f5;
             --light-card-bg: rgba(255, 255, 255, 0.8);
             --light-border: rgba(150, 150, 150, 0.3);
             --light-text: #1a202c;
-            --light-neon-glow: #f0f; /* Magenta */
+            --light-neon-glow: #f0f;
+            /* Magenta */
         }
         /* Ensure html and body take full height to cover browser UI elements */
         html {
             height: 100%;
         }
         body {
-            height: 100%; /* Ensure body also takes full height */
+            height: 100%;
+            /* Ensure body also takes full height */
             font-family: 'Rajdhani', sans-serif;
             background-color: var(--dark-bg);
             color: var(--dark-text);
             display: flex;
             justify-content: center;
-            align-items: flex-start; /* Changed to flex-start to align items to the top */
-            padding-top: 5vh; /* Added padding to lift the card from the top */
-            min-height: 100vh; /* Keep min-height for content, but allow body to stretch fully */
-            overflow-y: auto; /* Allow vertical scrolling if content overflows, safer for mobile */
-            overflow-x: hidden; /* Prevent horizontal scrolling */
-            perspective: 1000px; /* For 3D transformations */
+            align-items: flex-start;
+            /* Changed to flex-start to align items to the top */
+            padding-top: 5vh;
+            /* Added padding to lift the card from the top */
+            min-height: 100vh;
+            /* Keep min-height for content, but allow body to stretch fully */
+            overflow-y: auto;
+            /* Allow vertical scrolling if content overflows, safer for mobile */
+            overflow-x: hidden;
+            /* Prevent horizontal scrolling */
+            perspective: 1000px;
+            /* For 3D transformations */
             position: relative;
             transition: background-color 0.5s ease, color 0.5s ease;
         }
@@ -55,7 +64,8 @@
             height: 100%;
             overflow: hidden;
             pointer-events: none;
-            z-index: 0; /* Behind other content */
+            z-index: 0;
+            /* Behind other content */
         }
         .particle {
             position: absolute;
@@ -79,19 +89,6 @@
                 transform: translate(var(--x, 0), var(--y, 0)) scale(0.5);
             }
         }
-        /* Blurred background layer */
-        .blurred-layer {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at center, rgba(0, 255, 255, 0.05) 0%, transparent 70%);
-            backdrop-filter: blur(50px); /* Increased blur */
-            pointer-events: none;
-            z-index: 1; /* Between particles and card */
-            opacity: 0.8;
-        }
         /* Card container for 3D flip and tilt */
         .card-container {
             width: var(--card-width);
@@ -99,7 +96,8 @@
             position: relative;
             transform-style: preserve-3d;
             /* Updated transition for a more 'amazing' flip effect */
-            transition: transform 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Ease-out-back for overshoot */
+            transition: transform 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            /* Ease-out-back for overshoot */
             z-index: 10;
         }
         .card {
@@ -108,8 +106,10 @@
             position: absolute;
             transform-style: preserve-3d;
             backface-visibility: hidden;
-            border-radius: 2rem; /* More rounded */
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5); /* Stronger shadow */
+            border-radius: 2rem;
+            /* More rounded */
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+            /* Stronger shadow */
             transition: background-color 0.5s ease, border-color 0.5s ease;
         }
         .card-front, .card-back {
@@ -127,7 +127,8 @@
             align-items: center;
             padding: 1.5rem;
             color: var(--dark-text);
-            overflow: hidden; /* Ensure Lottie doesn't overflow */
+            overflow: hidden;
+            /* Ensure Lottie doesn't overflow */
         }
         body.light-theme .card-front,
         body.light-theme .card-back {
@@ -151,7 +152,8 @@
             width: 100%;
             height: 100%;
             z-index: -1;
-            opacity: 0.2; /* Subtle */
+            opacity: 0.2;
+            /* Subtle */
             pointer-events: none;
         }
         /* Gradient Border Trail/Pulse */
@@ -164,15 +166,19 @@
             bottom: -5px;
             background: linear-gradient(45deg, #00ffff, #ff00ff, #00ffff);
             background-size: 400% 400%;
-            border-radius: 2.2rem; /* Slightly larger than card border-radius */
+            border-radius: 2.2rem;
+            /* Slightly larger than card border-radius */
             z-index: -2;
             animation: gradient-pulse 4s ease infinite;
             filter: blur(10px);
         }
         @keyframes gradient-pulse {
-            0% { background-position: 0% 50%; opacity: 0.7; }
-            50% { background-position: 100% 50%; opacity: 1; }
-            100% { background-position: 0% 50%; opacity: 0.7; }
+            0% { background-position: 0% 50%;
+            opacity: 0.7; }
+            50% { background-position: 100% 50%;
+            opacity: 1; }
+            100% { background-position: 0% 50%;
+            opacity: 0.7; }
         }
         /* Profile details */
         .profile-img {
@@ -264,25 +270,6 @@
             background: rgba(255, 0, 255, 0.4);
             box-shadow: 0 0 20px rgba(255, 0, 255, 0.6);
         }
-        /* QR Code */
-        #qrCode {
-            width: 150px;
-            height: 150px;
-            background: #fff;
-            padding: 10px;
-            border-radius: 0.5rem;
-            box-shadow: 0 0 15px rgba(0, 255, 255, 0.4);
-            transition: box-shadow 0.3s ease;
-        }
-        body.light-theme #qrCode {
-            box-shadow: 0 0 15px rgba(255, 0, 255, 0.4);
-        }
-        #qrCode:hover {
-            box-shadow: 0 0 25px rgba(0, 255, 255, 0.8);
-        }
-        body.light-theme #qrCode:hover {
-            box-shadow: 0 0 25px rgba(255, 0, 255, 0.8);
-        }
         /* Theme Toggle */
         .theme-toggle {
             position: absolute;
@@ -305,8 +292,6 @@
         body.light-theme .theme-toggle:hover {
             background: rgba(0, 0, 0, 0.2);
         }
-        /* Smart Assistant Icon (removed) */
-        /* Chat Stub (removed) */
         /* Tooltip */
         .tooltip {
             position: absolute;
@@ -377,8 +362,10 @@
             border-top: 8px solid var(--light-neon-glow);
         }
         @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+            0% { transform: rotate(0deg);
+            }
+            100% { transform: rotate(360deg);
+            }
         }
         /* Responsive Adjustments */
         @media (max-width: 640px) {
@@ -387,29 +374,90 @@
                 --card-height: 85vh; /* Larger on mobile for better touch */
             }
             body {
-                padding: 1rem; /* Add some padding to prevent content from touching edges */
-                padding-top: 2vh; /* Adjust padding-top for mobile to account for smaller screen */
+                padding: 1rem;
+                /* Add some padding to prevent content from touching edges */
+                padding-top: 2vh;
+                /* Adjust padding-top for mobile to account for smaller screen */
             }
             .card-container {
-                margin: 0; /* Remove margin as padding is added to body */
+                margin: 0;
+                /* Remove margin as padding is added to body */
             }
-            /* Smart Assistant and Chat Stub styles removed */
             .theme-toggle {
-                padding: 0.6rem; /* Slightly smaller padding for toggle buttons */
+                padding: 0.6rem;
+                /* Slightly smaller padding for toggle buttons */
                 top: 1rem;
                 right: 1rem;
             }
             /* Ensure mode buttons wrap correctly */
             .profile-mode-switcher .flex {
-                flex-direction: row; /* Ensure row direction even if wrapping */
-                flex-wrap: wrap; /* Allow buttons to wrap to next line */
-                justify-content: center; /* Center buttons when wrapped */
-                gap: 0.5rem; /* Reduce gap slightly */
+                flex-direction: row;
+                /* Ensure row direction even if wrapping */
+                flex-wrap: wrap;
+                /* Allow buttons to wrap to next line */
+                justify-content: center;
+                /* Center buttons when wrapped */
+                gap: 0.5rem;
+                /* Reduce gap slightly */
             }
             .profile-mode-switcher button {
-                padding: 0.6rem 1rem; /* Adjust padding for smaller buttons */
-                font-size: 0.8rem; /* Smaller font size */
+                padding: 0.6rem 1rem;
+                /* Adjust padding for smaller buttons */
+                font-size: 0.8rem;
+                /* Smaller font size */
             }
+        }
+        /* Styles for the back image */
+        .back-profile-img {
+            width: 120px; /* Adjust size as needed */
+            height: 120px; /* Adjust size as needed */
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 1rem; /* Space between image and QR code */
+            border: 3px solid var(--dark-neon-glow);
+            box-shadow: 0 0 15px var(--dark-neon-glow);
+        }
+        body.light-theme .back-profile-img {
+            border: 3px solid var(--light-neon-glow);
+            box-shadow: 0 0 15px var(--light-neon-glow);
+        }
+        /* Watermark */
+        .card-footer-watermark {
+            position: absolute;
+            bottom: 0.75rem; /* Adjusted to be closer to the bottom */
+            left: 0;
+            width: 100%;
+            text-align: center;
+            z-index: 15; /* Above other card content but below theme toggle */
+        }
+        /* About Me Section specific styles */
+        #aboutSection {
+            background: var(--dark-card-bg); /* Use card background for consistency */
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border-radius: 2rem; /* Match card border-radius */
+            text-align: left; /* Align text within about section */
+            /* Flex properties applied in HTML */
+            /* Ensure content within is scrollable */
+        }
+        #aboutSection.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        /* Custom scrollbar for about text */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: var(--dark-neon-glow);
+            border-radius: 10px;
+        }
+        body.light-theme .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: var(--light-neon-glow);
         }
     </style>
 </head>
@@ -418,149 +466,126 @@
         <div class="loader"></div>
     </div>
     <div class="particle-bg" id="particleBg"></div>
-    <div class="blurred-layer"></div>
-
     <div class="card-container" id="cardContainer">
         <div class="card card-front" id="cardFront">
             <button id="themeToggle" class="theme-toggle">
                 <i class="fas fa-moon text-xl text-white"></i>
             </button>
             <div id="lottie-background"></div>
-            <div class="flex flex-col items-center gap-2"> <!-- Adjusted gap from gap-4 and removed mt-6 -->
-                <img src="https://avatars.githubusercontent.com/u/74032174?v=4" alt="Profile Picture" class="profile-img" id="profileImage">
-                <h1 class="name" id="profileName">Rajith Raaj</h1>
-                <p class="tagline" id="profileTagline">Chief AI Architect | Innovator | Freelancer</p>
-                <div class="micro-stats flex justify-center gap-2"> <!-- Removed mt-2, relying on parent gap -->
-                    <span>20+ Projects</span>
-                    <span>10+ Clients</span>
+            <div class="flex flex-col items-center gap-2">
+                <img src="https://i.ibb.co/j9HXgSHp/logo-img.png" alt="Profile Picture" class="profile-img" id="profileImage">
+                <h1 class="name" id="profileName">Soundhar</h1>
+                <p class="tagline" id="profileTagline">Visionary Founder | AI Pioneer</p>
+                <div class="micro-stats flex justify-center gap-2">
+                    <span>3 Startups</span>
+                    <span>2 Exits</span>
+                    <span>AI Strategist</span>
                 </div>
             </div>
-            <!-- This flex container controls spacing for contact, social, and action buttons -->
-            <div class="flex flex-col items-center gap-2 w-full">
+            <div class="flex flex-col items-center gap-2 w-full flex-grow">
                 <div class="contact-info text-center">
-                    <p class="text-lg"><i class="fas fa-phone mr-2"></i> <span id="phoneNumber" class="cursor-pointer hover:underline"> +91 98765 43210</span></p>
+                    <p class="text-lg"><i class="fas fa-phone mr-2"></i> <span id="phoneNumber" class="cursor-pointer hover:underline"> +91 93846 64484</span></p>
                     <p class="text-lg mt-2"><i class="fas fa-envelope mr-2"></i> <span id="emailAddress" class="cursor-pointer hover:underline"> contact@rajithraaj.com</span></p>
                 </div>
-                <div class="social-icons flex gap-6 text-3xl mt-2"> <!-- Adjusted mt-4 to mt-2 -->
-                    <a href="https://github.com/rajithraaj" target="_blank" rel="noopener noreferrer" class="relative group">
-                        <i class="fab fa-github"></i>
-                        <span class="tooltip absolute top-full left-1/2 -translate-x-1/2 mt-2 group-hover:opacity-100 group-hover:translate-y-0">GitHub</span>
-                    </a>
-                    <a href="https://linkedin.com/in/rajithraaj" target="_blank" rel="noopener noreferrer" class="relative group">
-                        <i class="fab fa-linkedin"></i>
-                        <span class="tooltip absolute top-full left-1/2 -translate-x-1/2 mt-2 group-hover:opacity-100 group-hover:translate-y-0">LinkedIn</span>
-                    </a>
-                    <a href="https://twitter.com/rajithraaj" target="_blank" rel="noopener noreferrer" class="relative group">
-                        <i class="fab fa-twitter"></i>
-                        <span class="tooltip absolute top-full left-1/2 -translate-x-1/2 mt-2 group-hover:opacity-100 group-hover:translate-y-0">Twitter</span>
-                    </a>
-                    <a href="https://instagram.com/rajithraaj" target="_blank" rel="noopener noreferrer" class="relative group">
-                        <i class="fab fa-instagram"></i>
-                        <span class="tooltip absolute top-full left-1/2 -translate-x-1/2 mt-2 group-hover:opacity-100 group-hover:translate-y-0">Instagram</span>
-                    </a>
-                    <a href="https://wa.link/i1oys2" target="_blank" rel="noopener noreferrer" class="relative group">
-                        <i class="fab fa-whatsapp"></i>
-                        <span class="tooltip absolute top-full left-1/2 -translate-x-1/2 mt-2 group-hover:opacity-100 group-hover:translate-y-0">WhatsApp</span>
-                    </a>
-                </div>
-                <div class="action-buttons flex flex-wrap justify-center gap-4 w-full px-4 mt-2"> <!-- Adjusted mt-6 to mt-2 -->
+                <div class="social-icons flex gap-6 text-3xl mt-2">
+                    </div>
+                <div class="action-buttons flex flex-wrap justify-center gap-4 w-full px-4 mt-2">
                     <button class="action-button" id="addToContacts"><i class="fas fa-address-book"></i> Add to Contacts</button>
                     <button class="action-button" id="shareCard"><i class="fas fa-share-alt"></i> Share Card</button>
                 </div>
             </div>
+            <p class="text-xs text-gray-500 card-footer-watermark">
+                <a href="https://zenora-ai.vercel.app/" target="_blank" rel="noopener noreferrer" class="hover:underline">ZENORA AI © All Rights Reserved</a>
+            </p>
         </div>
         <div class="card card-back" id="cardBack">
             <h2 class="text-3xl font-bold mb-6 mt-4">Connect with me!</h2>
-            <div id="qrCode" class="flex-shrink-0"></div>
-            <div class="flex flex-col items-center gap-4 mt-6">
+            <img src="https://i.ibb.co/rXyYzQW/soundhar-img.png" alt="Soundhar" class="back-profile-img">
+            <div class="flex flex-col items-center gap-4 mt-6" id="backMainContent">
+                <button class="action-button" id="aboutMeButton"><i class="fas fa-info-circle"></i> About Me</button>
                 <button class="action-button" id="copyEmailBack"><i class="fas fa-envelope"></i> Copy Email</button>
                 <button class="action-button" id="copyPhoneBack"><i class="fas fa-phone"></i> Copy Phone</button>
-                <!-- Removed 'Save to Homescreen' button -->
                 <div class="profile-mode-switcher flex flex-col items-center gap-3 mt-4">
                     <p class="text-sm text-gray-400">Switch Mode:</p>
                     <div class="flex flex-wrap justify-center gap-2">
                         <button class="action-button text-sm px-3 py-1.5" data-mode="Founder">Founder</button>
-                        <button class="action-button text-sm px-3 py-1.5" data-mode="Engineer">Engineer</button>
-                        <button class="action-button text-sm px-3 py-1.5" data-mode="Freelancer">Freelancer</button>
-                        <button class="action-button text-sm px-3 py-1.5" data-mode="Creator">Creator</button>
+                        <button class="action-button text-sm px-3 py-1.5" data-mode="Carrywings Logistics">Carrywings Logistics</button>
+                        <button class="action-button text-sm px-3 py-1.5" data-mode="Carrywings Technologies">Carrywings Technologies</button>
                     </div>
                 </div>
             </div>
-            <p class="text-sm text-gray-500 mt-auto">Elite SpaceCard 3.0</p>
+            <p class="text-xs text-gray-500 card-footer-watermark">
+                Elite SpaceCard 3.0 | <a href="https://zenora-ai.vercel.app/" target="_blank" rel="noopener noreferrer" class="hover:underline">ZENORA AI ©</a>
+            </p>
+
+            <div id="aboutSection" class="absolute inset-0 flex flex-col justify-between p-6 opacity-0 pointer-events-none transition-opacity duration-300">
+                <button id="backToMainBack" class="absolute top-4 left-4 text-xl text-gray-300 hover:text-white focus:outline-none z-30">
+                    <i class="fas fa-arrow-left mr-2"></i> Back
+                </button>
+                <h3 class="text-2xl font-bold text-center mb-4 mt-12">About Carrywings</h3>
+                <p class="text-base text-gray-300 text-center flex-grow overflow-y-auto custom-scrollbar leading-relaxed">
+                    At Carrywings we boast experience and expertise in global logistics management services. Our clients can selectively or completely outsource the management and transportation of raw materials & finished goods in India as well as the overseas markets. This is complemented by our IT expertise, knowledge of systems and an ability to deliver precisely the right solution to custom set of requirements. Carrywings team is comprised of experts in supply chain and logistics management, commercial carrier management, logistics operations and execution and supply chain technology.
+                </p>
+                <p class="text-xs text-gray-500 card-footer-watermark">
+                    Elite SpaceCard 3.0 | <a href="https://zenora-ai.vercel.app/" target="_blank" rel="noopener noreferrer" class="hover:underline">ZENORA AI ©</a>
+                </p>
+            </div>
         </div>
     </div>
-    <!-- Removed Smart Assistant and Chat Stub divs -->
     <div id="toast" class="toast"></div>
     <script>
         // --- Configuration & Data ---
         const profileData = {
             Founder: {
-                name: "Rajith Raaj",
+                name: "Soundhar",
                 tagline: "Visionary Founder | AI Pioneer",
-                phoneNumber: "+91 98765 43210",
+                phoneNumber: "+91 9384664484", // Updated: Personal
                 emailAddress: "contact@rajithraaj.com",
                 microStats: ["3 Startups", "2 Exits", "AI Strategist"],
                 social: {
-                    github: "https://github.com/rajithraaj",
-                    linkedin: "https://linkedin.com/in/rajithraaj",
-                    twitter: "https://twitter.com/rajithraaj",
+                    linkedin: "https://linkedin.com/in/rajithraaj", // Assuming personal LinkedIn
                     instagram: "https://instagram.com/rajithraaj",
-                    whatsapp: "https://wa.link/i1oys2" // Added WhatsApp
+                    whatsapp: "https://wa.link/d13a9v",
+                    facebook: "https://www.facebook.com/carrywings" // Assuming this is for Carrywings general
                 }
             },
-            Engineer: {
-                name: "Rajith Raaj",
-                tagline: "Senior Software Engineer | Fullstack Dev",
-                phoneNumber: "+91 98765 43210",
-                emailAddress: "dev@rajithraaj.com",
-                microStats: ["20+ Projects", "5 Languages", "Clean Code"],
+            "Carrywings Logistics": {
+                name: "Soundhar",
+                tagline: "Director, Carrywings Logistics | Global Supply Chain Expert",
+                phoneNumber: "+91 9840028788", // Updated: Work
+                emailAddress: "soundhar@carrywings.com", // Updated: Work
+                microStats: ["Global Logistics", "Freight Management", "Supply Chain Optimization"],
                 social: {
-                    github: "https://github.com/rajithraaj",
-                    linkedin: "https://linkedin.com/in/rajithraaj-dev", // Example, can be different
-                    twitter: "https://twitter.com/rajithraaj",
-                    instagram: "https://instagram.com/rajithraaj",
-                    whatsapp: "https://wa.link/i1oys2" // Added WhatsApp
+                    website: "https://carrywings.com/",
+                    linkedin: "https://linkedin.com/in/rajithraaj", // Assuming personal LinkedIn
+                    whatsapp: "https://wa.link/d13a9v",
+                    facebook: "https://www.facebook.com/carrywings",
+                    instagram: "https://www.instagram.com/carrywings_lines/"
                 }
             },
-            Freelancer: {
-                name: "Rajith Raaj",
-                tagline: "Freelance AI/Web Developer | Consultant",
-                phoneNumber: "+91 98765 43210",
-                emailAddress: "freelance@rajithraaj.com",
-                microStats: ["10+ Clients", "High Impact", "Flexible"],
+            "Carrywings Technologies": {
+                name: "Soundhar",
+                tagline: "Lead Architect, Carrywings Technologies | AI & Web Solutions",
+                phoneNumber: "+91 9840028788", // Updated: Work
+                emailAddress: "soundhar@carrywings.com", // Updated: Work
+                microStats: ["AI Development", "Web Solutions", "Innovation"],
                 social: {
-                    github: "https://github.com/rajithraaj",
-                    linkedin: "https://linkedin.com/in/rajithraaj",
-                    twitter: "https://twitter.com/rajithraaj",
-                    instagram: "https://instagram.com/rajithraaj",
-                    whatsapp: "https://wa.link/i1oys2" // Added WhatsApp
-                }
-            },
-            Creator: {
-                name: "Rajith Raaj",
-                tagline: "Digital Creator | Content Strategist",
-                phoneNumber: "+91 98765 43210",
-                emailAddress: "creator@rajithraaj.com",
-                microStats: ["50K+ Reach", "Video Production", "Community"],
-                social: {
-                    github: "https://github.com/rajithraaj",
-                    linkedin: "https://linkedin.com/in/rajithraaj",
-                    twitter: "https://twitter.com/rajithraaj",
-                    instagram: "https://instagram.com/rajithraaj",
-                    whatsapp: "https://wa.link/i1oys2" // Added WhatsApp
+                    website: "https://carrywings-technologies.vercel.app/",
+                    linkedin: "https://linkedin.com/in/rajithraaj", // Assuming personal LinkedIn
+                    whatsapp: "https://wa.link/d13a9v",
+                    facebook: "https://www.facebook.com/carrywings", // Assuming this is for Carrywings general
+                    instagram: "https://www.instagram.com/carrywings_lines/" // Assuming this is for Carrywings general
                 }
             }
         };
         let currentMode = 'Founder'; // Default mode
         let isFlipped = false;
-
         // --- DOM Elements ---
         const loadingOverlay = document.getElementById('loadingOverlay');
         const cardContainer = document.getElementById('cardContainer');
         const cardFront = document.getElementById('cardFront');
         const cardBack = document.getElementById('cardBack');
         const themeToggle = document.getElementById('themeToggle');
-        // Removed smartAssistant and chatStub constants
         const toast = document.getElementById('toast');
         // Profile details
         const profileImage = document.getElementById('profileImage');
@@ -573,12 +598,16 @@
         const addToContactsBtn = document.getElementById('addToContacts');
         const shareCardBtn = document.getElementById('shareCard');
         // Action Buttons (Back)
-        const qrCodeDiv = document.getElementById('qrCode');
         const copyEmailBackBtn = document.getElementById('copyEmailBack');
         const copyPhoneBackBtn = document.getElementById('copyPhoneBack');
-        // Removed saveHomescreenBtn constant
         const profileModeButtons = document.querySelectorAll('.profile-mode-switcher button');
         const socialIconsContainer = document.querySelector('.social-icons');
+
+        // About Me Section DOM elements
+        const aboutMeButton = document.getElementById('aboutMeButton');
+        const aboutSection = document.getElementById('aboutSection');
+        const backToMainBack = document.getElementById('backToMainBack');
+        const backMainContent = document.getElementById('backMainContent'); // The wrapper for original content
 
         // --- Utility Functions ---
         // Show Toast Notification
@@ -590,14 +619,13 @@
             }, 3000);
             triggerHapticFeedback();
         }
-
         // Trigger Haptic Feedback (Vibration API)
         function triggerHapticFeedback() {
             if (window.navigator && window.navigator.vibrate) {
-                window.navigator.vibrate(50); // Vibrate for 50ms
+                window.navigator.vibrate(50);
+                // Vibrate for 50ms
             }
         }
-
         // Copy to Clipboard
         function copyToClipboard(text) {
             const textarea = document.createElement('textarea');
@@ -615,13 +643,6 @@
             }
             document.body.removeChild(textarea);
         }
-
-        // Generate QR Code (using Google Charts API)
-        function generateQRCode(text) {
-            const qrUrl = `https://chart.googleapis.com/chart?cht=qr&chs=300x300&chl=${encodeURIComponent(text)}`;
-            qrCodeDiv.innerHTML = `<img src="${qrUrl}" alt="QR Code" class="w-full h-full object-contain">`;
-        }
-
         // --- Core Logic ---
         // Update Card Content based on Mode
         function updateCardContent(mode) {
@@ -631,7 +652,6 @@
             profileTagline.textContent = data.tagline;
             phoneNumberSpan.textContent = data.phoneNumber;
             emailAddressSpan.textContent = data.emailAddress;
-
             // Update Micro Stats
             microStatsContainer.innerHTML = '';
             data.microStats.forEach(stat => {
@@ -639,38 +659,52 @@
                 span.textContent = stat;
                 microStatsContainer.appendChild(span);
             });
-
             // Update Social Links
-            socialIconsContainer.innerHTML = `
-                <a href="${data.social.github}" target="_blank" rel="noopener noreferrer" class="relative group">
-                    <i class="fab fa-github"></i>
-                    <span class="tooltip absolute top-full left-1/2 -translate-x-1/2 mt-2 group-hover:opacity-100 group-hover:translate-y-0">GitHub</span>
-                </a>
-                <a href="${data.social.linkedin}" target="_blank" rel="noopener noreferrer" class="relative group">
-                    <i class="fab fa-linkedin"></i>
-                    <span class="tooltip absolute top-full left-1/2 -translate-x-1/2 mt-2 group-hover:opacity-100 group-hover:translate-y-0">LinkedIn</span>
-                </a>
-                <a href="${data.social.twitter}" target="_blank" rel="noopener noreferrer" class="relative group">
-                    <i class="fab fa-twitter"></i>
-                    <span class="tooltip absolute top-full left-1/2 -translate-x-1/2 mt-2 group-hover:opacity-100 group-hover:translate-y-0">Twitter</span>
-                </a>
-                <a href="${data.social.instagram}" target="_blank" rel="noopener noreferrer" class="relative group">
-                    <i class="fab fa-instagram"></i>
-                    <span class="tooltip absolute top-full left-1/2 -translate-x-1/2 mt-2 group-hover:opacity-100 group-hover:translate-y-0">Instagram</span>
-                </a>
-                <a href="${data.social.whatsapp}" target="_blank" rel="noopener noreferrer" class="relative group">
-                    <i class="fab fa-whatsapp"></i>
-                    <span class="tooltip absolute top-full left-1/2 -translate-x-1/2 mt-2 group-hover:opacity-100 group-hover:translate-y-0">WhatsApp</span>
-                </a>
-            `;
+            socialIconsContainer.innerHTML = ''; // Clear existing icons
 
+            if (data.social.facebook) {
+                socialIconsContainer.innerHTML += `
+                    <a href="${data.social.facebook}" target="_blank" rel="noopener noreferrer" class="relative group">
+                        <i class="fab fa-facebook"></i>
+                        <span class="tooltip absolute top-full left-1/2 -translate-x-1/2 mt-2 group-hover:opacity-100 group-hover:translate-y-0">Facebook</span>
+                    </a>
+                `;
+            }
+            if (data.social.instagram) {
+                socialIconsContainer.innerHTML += `
+                    <a href="${data.social.instagram}" target="_blank" rel="noopener noreferrer" class="relative group">
+                        <i class="fab fa-instagram"></i>
+                        <span class="tooltip absolute top-full left-1/2 -translate-x-1/2 mt-2 group-hover:opacity-100 group-hover:translate-y-0">Instagram</span>
+                    </a>
+                `;
+            }
+            if (data.social.linkedin) {
+                socialIconsContainer.innerHTML += `
+                    <a href="${data.social.linkedin}" target="_blank" rel="noopener noreferrer" class="relative group">
+                        <i class="fab fa-linkedin"></i>
+                        <span class="tooltip absolute top-full left-1/2 -translate-x-1/2 mt-2 group-hover:opacity-100 group-hover:translate-y-0">LinkedIn</span>
+                    </a>
+                `;
+            }
+            if (data.social.whatsapp) {
+                socialIconsContainer.innerHTML += `
+                    <a href="${data.social.whatsapp}" target="_blank" rel="noopener noreferrer" class="relative group">
+                        <i class="fab fa-whatsapp"></i>
+                        <span class="tooltip absolute top-full left-1/2 -translate-x-1/2 mt-2 group-hover:opacity-100 group-hover:translate-y-0">WhatsApp</span>
+                    </a>
+                `;
+            }
+             if (data.social.website) {
+                socialIconsContainer.innerHTML += `
+                    <a href="${data.social.website}" target="_blank" rel="noopener noreferrer" class="relative group">
+                        <i class="fas fa-globe"></i>
+                        <span class="tooltip absolute top-full left-1/2 -translate-x-1/2 mt-2 group-hover:opacity-100 group-hover:translate-y-0">Website</span>
+                    </a>
+                `;
+            }
 
-            // Regenerate QR Code for current profile
-            const vCardContent = `BEGIN:VCARD\nVERSION:3.0\nFN:${data.name}\nTEL:${data.phoneNumber}\nEMAIL:${data.emailAddress}\nEND:VCARD`;
-            generateQRCode(vCardContent);
             currentMode = mode;
             showToast(`Switched to ${mode} mode!`);
-
             // Update active state for mode buttons
             profileModeButtons.forEach(button => {
                 if (button.dataset.mode === mode) {
@@ -682,7 +716,6 @@
                 }
             });
         }
-
         // Card Flip Logic
         function flipCard() {
             isFlipped = !isFlipped;
@@ -693,7 +726,6 @@
             }
             triggerHapticFeedback();
         }
-
         // --- Visual Effects & Animations ---
         // Particle Background Generation
         function createParticles() {
@@ -710,7 +742,6 @@
                 particleBg.appendChild(particle);
             }
         }
-
         // Lottie Animation
         function loadLottieAnimation() {
             lottie.loadAnimation({
@@ -721,12 +752,10 @@
                 path: 'https://assets5.lottiefiles.com/private_files/lf30_jkgk378g.json'
             });
         }
-
         // 3D Tilt Effect (using GSAP for smooth animation)
         function initTiltEffect() {
             const card = document.querySelector('.card-container');
             const sensitivity = 0.05; // Base sensitivity for mouse
-
             // Mouse move for desktop
             document.addEventListener('mousemove', (e) => {
                 const rect = card.getBoundingClientRect();
@@ -741,7 +770,6 @@
                     duration: 0.5
                 });
             });
-
             card.addEventListener('mouseleave', () => {
                 gsap.to(card, {
                     rotationX: 0,
@@ -750,7 +778,6 @@
                     duration: 1.5
                 });
             });
-
             // Device Orientation for mobile (Gyroscope)
             if (window.DeviceOrientationEvent) {
                 window.addEventListener('deviceorientation', function(event) {
@@ -759,7 +786,6 @@
                     // Adjust multipliers to make the effect more visible
                     const tiltX = (event.beta / 90) * 20;  // Increased from 10 to 20 for more noticeable tilt
                     const tiltY = (event.gamma / 90) * 20; // Increased from 10 to 20 for more noticeable tilt
-
                     gsap.to(card, {
                         rotationX: tiltX,
                         rotationY: tiltY,
@@ -769,7 +795,6 @@
                 });
             }
         }
-
         // --- Event Listeners ---
         // Initial loading sequence
         window.addEventListener('load', () => {
@@ -778,7 +803,6 @@
                 setTimeout(() => loadingOverlay.style.display = 'none', 500);
             }, 1000);
         });
-
         // Theme Toggle
         themeToggle.addEventListener('click', () => {
             document.body.classList.toggle('light-theme');
@@ -786,22 +810,19 @@
             themeToggle.innerHTML = `<i class="fas ${isLight ? 'fa-sun' : 'fa-moon'} text-xl text-white"></i>`;
             localStorage.setItem('theme', isLight ? 'light' : 'dark');
         });
-
         // Card Flip on Click/Tap
         cardContainer.addEventListener('click', (e) => {
-            const interactiveElements = ['A', 'BUTTON', 'INPUT', 'SPAN', 'P'];
+            const interactiveElements = ['A', 'BUTTON', 'INPUT', 'SPAN', 'P', 'IMG']; // Added IMG to prevent flipping when clicking images
             if (e.target.closest(interactiveElements.map(tag => tag.toLowerCase()).join(','))) {
                 return;
             }
             flipCard();
         });
-
         // Swipe Gestures for Flip
         let touchStartX = 0;
         cardContainer.addEventListener('touchstart', (e) => {
             touchStartX = e.touches[0].clientX;
         }, { passive: true });
-
         cardContainer.addEventListener('touchend', (e) => {
             const touchEndX = e.changedTouches[0].clientX;
             const deltaX = touchEndX - touchStartX;
@@ -809,13 +830,11 @@
                 flipCard();
             }
         });
-
         // Tap-to-copy for Phone/Email
         phoneNumberSpan.addEventListener('click', () => copyToClipboard(phoneNumberSpan.textContent.trim()));
         emailAddressSpan.addEventListener('click', () => copyToClipboard(emailAddressSpan.textContent.trim()));
         copyEmailBackBtn.addEventListener('click', () => copyToClipboard(emailAddressSpan.textContent.trim()));
         copyPhoneBackBtn.addEventListener('click', () => copyToClipboard(phoneNumberSpan.textContent.trim()));
-
         // Save as VCF (Add to Contacts)
         addToContactsBtn.addEventListener('click', () => {
             const data = profileData[currentMode];
@@ -836,7 +855,6 @@ END:VCARD`;
             URL.revokeObjectURL(url);
             showToast("Contact Saved!");
         });
-
         // Share Card (Web Share API / WhatsApp fallback)
         shareCardBtn.addEventListener('click', async () => {
             if (navigator.share) {
@@ -859,7 +877,6 @@ END:VCARD`;
             }
             triggerHapticFeedback();
         });
-
         // Profile Mode Switcher
         profileModeButtons.forEach(button => {
             button.addEventListener('click', () => {
@@ -867,12 +884,28 @@ END:VCARD`;
             });
         });
 
+        // About Me Section Visibility Control
+        aboutMeButton.addEventListener('click', () => {
+            gsap.to(backMainContent, {opacity: 0, duration: 0.3, onComplete: () => {
+                backMainContent.style.display = 'none';
+                aboutSection.classList.add('show');
+                gsap.fromTo(aboutSection, {opacity: 0}, {opacity: 1, duration: 0.3});
+            }});
+        });
+
+        backToMainBack.addEventListener('click', () => {
+            gsap.to(aboutSection, {opacity: 0, duration: 0.3, onComplete: () => {
+                aboutSection.classList.remove('show');
+                backMainContent.style.display = 'flex'; // Restore flex display
+                gsap.fromTo(backMainContent, {opacity: 0}, {opacity: 1, duration: 0.3});
+            }});
+        });
+
         // --- Initialization ---
         document.addEventListener('DOMContentLoaded', () => {
             createParticles();
             loadLottieAnimation();
             initTiltEffect();
-
             // Apply saved theme
             const savedTheme = localStorage.getItem('theme');
             if (savedTheme === 'light') {
@@ -884,7 +917,6 @@ END:VCARD`;
                     themeToggle.innerHTML = `<i class="fas fa-sun text-xl text-white"></i>`;
                 }
             }
-
             // Initial content load
             updateCardContent(currentMode);
         });
