@@ -426,22 +426,22 @@
                 <i class="fas fa-moon text-xl text-white"></i>
             </button>
             <div id="lottie-background"></div>
-            <div class="flex flex-col items-center gap-4 mt-6">
+            <div class="flex flex-col items-center gap-2"> <!-- Adjusted gap from gap-4 and removed mt-6 -->
                 <img src="https://avatars.githubusercontent.com/u/74032174?v=4" alt="Profile Picture" class="profile-img" id="profileImage">
                 <h1 class="name" id="profileName">Rajith Raaj</h1>
                 <p class="tagline" id="profileTagline">Chief AI Architect | Innovator | Freelancer</p>
-                <div class="micro-stats flex justify-center gap-2 mt-2">
+                <div class="micro-stats flex justify-center gap-2"> <!-- Removed mt-2, relying on parent gap -->
                     <span>20+ Projects</span>
                     <span>10+ Clients</span>
                 </div>
             </div>
             <!-- This flex container controls spacing for contact, social, and action buttons -->
-            <div class="flex flex-col items-center gap-2 w-full"> <!-- Adjusted gap from gap-4 to gap-2 to lift content -->
+            <div class="flex flex-col items-center gap-2 w-full">
                 <div class="contact-info text-center">
                     <p class="text-lg"><i class="fas fa-phone mr-2"></i> <span id="phoneNumber" class="cursor-pointer hover:underline"> +91 98765 43210</span></p>
                     <p class="text-lg mt-2"><i class="fas fa-envelope mr-2"></i> <span id="emailAddress" class="cursor-pointer hover:underline"> contact@rajithraaj.com</span></p>
                 </div>
-                <div class="social-icons flex gap-6 text-3xl mt-4">
+                <div class="social-icons flex gap-6 text-3xl mt-2"> <!-- Adjusted mt-4 to mt-2 -->
                     <a href="https://github.com/rajithraaj" target="_blank" rel="noopener noreferrer" class="relative group">
                         <i class="fab fa-github"></i>
                         <span class="tooltip absolute top-full left-1/2 -translate-x-1/2 mt-2 group-hover:opacity-100 group-hover:translate-y-0">GitHub</span>
@@ -458,8 +458,12 @@
                         <i class="fab fa-instagram"></i>
                         <span class="tooltip absolute top-full left-1/2 -translate-x-1/2 mt-2 group-hover:opacity-100 group-hover:translate-y-0">Instagram</span>
                     </a>
+                    <a href="https://wa.link/i1oys2" target="_blank" rel="noopener noreferrer" class="relative group">
+                        <i class="fab fa-whatsapp"></i>
+                        <span class="tooltip absolute top-full left-1/2 -translate-x-1/2 mt-2 group-hover:opacity-100 group-hover:translate-y-0">WhatsApp</span>
+                    </a>
                 </div>
-                <div class="action-buttons flex flex-wrap justify-center gap-4 w-full px-4">
+                <div class="action-buttons flex flex-wrap justify-center gap-4 w-full px-4 mt-2"> <!-- Adjusted mt-6 to mt-2 -->
                     <button class="action-button" id="addToContacts"><i class="fas fa-address-book"></i> Add to Contacts</button>
                     <button class="action-button" id="shareCard"><i class="fas fa-share-alt"></i> Share Card</button>
                 </div>
@@ -500,7 +504,8 @@
                     github: "https://github.com/rajithraaj",
                     linkedin: "https://linkedin.com/in/rajithraaj",
                     twitter: "https://twitter.com/rajithraaj",
-                    instagram: "https://instagram.com/rajithraaj"
+                    instagram: "https://instagram.com/rajithraaj",
+                    whatsapp: "https://wa.link/i1oys2" // Added WhatsApp
                 }
             },
             Engineer: {
@@ -513,7 +518,8 @@
                     github: "https://github.com/rajithraaj",
                     linkedin: "https://linkedin.com/in/rajithraaj-dev", // Example, can be different
                     twitter: "https://twitter.com/rajithraaj",
-                    instagram: "https://instagram.com/rajithraaj"
+                    instagram: "https://instagram.com/rajithraaj",
+                    whatsapp: "https://wa.link/i1oys2" // Added WhatsApp
                 }
             },
             Freelancer: {
@@ -526,7 +532,8 @@
                     github: "https://github.com/rajithraaj",
                     linkedin: "https://linkedin.com/in/rajithraaj",
                     twitter: "https://twitter.com/rajithraaj",
-                    instagram: "https://instagram.com/rajithraaj"
+                    instagram: "https://instagram.com/rajithraaj",
+                    whatsapp: "https://wa.link/i1oys2" // Added WhatsApp
                 }
             },
             Creator: {
@@ -539,7 +546,8 @@
                     github: "https://github.com/rajithraaj",
                     linkedin: "https://linkedin.com/in/rajithraaj",
                     twitter: "https://twitter.com/rajithraaj",
-                    instagram: "https://instagram.com/rajithraaj"
+                    instagram: "https://instagram.com/rajithraaj",
+                    whatsapp: "https://wa.link/i1oys2" // Added WhatsApp
                 }
             }
         };
@@ -633,15 +641,29 @@
             });
 
             // Update Social Links
-            Object.keys(data.social).forEach(key => {
-                const iconElement = socialIconsContainer.querySelector(`.fa-${key}`);
-                if (iconElement) {
-                    const anchorElement = iconElement.closest('a');
-                    if (anchorElement) {
-                        anchorElement.href = data.social[key];
-                    }
-                }
-            });
+            socialIconsContainer.innerHTML = `
+                <a href="${data.social.github}" target="_blank" rel="noopener noreferrer" class="relative group">
+                    <i class="fab fa-github"></i>
+                    <span class="tooltip absolute top-full left-1/2 -translate-x-1/2 mt-2 group-hover:opacity-100 group-hover:translate-y-0">GitHub</span>
+                </a>
+                <a href="${data.social.linkedin}" target="_blank" rel="noopener noreferrer" class="relative group">
+                    <i class="fab fa-linkedin"></i>
+                    <span class="tooltip absolute top-full left-1/2 -translate-x-1/2 mt-2 group-hover:opacity-100 group-hover:translate-y-0">LinkedIn</span>
+                </a>
+                <a href="${data.social.twitter}" target="_blank" rel="noopener noreferrer" class="relative group">
+                    <i class="fab fa-twitter"></i>
+                    <span class="tooltip absolute top-full left-1/2 -translate-x-1/2 mt-2 group-hover:opacity-100 group-hover:translate-y-0">Twitter</span>
+                </a>
+                <a href="${data.social.instagram}" target="_blank" rel="noopener noreferrer" class="relative group">
+                    <i class="fab fa-instagram"></i>
+                    <span class="tooltip absolute top-full left-1/2 -translate-x-1/2 mt-2 group-hover:opacity-100 group-hover:translate-y-0">Instagram</span>
+                </a>
+                <a href="${data.social.whatsapp}" target="_blank" rel="noopener noreferrer" class="relative group">
+                    <i class="fab fa-whatsapp"></i>
+                    <span class="tooltip absolute top-full left-1/2 -translate-x-1/2 mt-2 group-hover:opacity-100 group-hover:translate-y-0">WhatsApp</span>
+                </a>
+            `;
+
 
             // Regenerate QR Code for current profile
             const vCardContent = `BEGIN:VCARD\nVERSION:3.0\nFN:${data.name}\nTEL:${data.phoneNumber}\nEMAIL:${data.emailAddress}\nEND:VCARD`;
@@ -838,20 +860,12 @@ END:VCARD`;
             triggerHapticFeedback();
         });
 
-        // Removed Save to Homescreen button logic
-        // let deferredPrompt; // Removed
-        // window.addEventListener('beforeinstallprompt', (e) => { /* Removed */ });
-        // saveHomescreenBtn.addEventListener('click', () => { /* Removed */ });
-
         // Profile Mode Switcher
         profileModeButtons.forEach(button => {
             button.addEventListener('click', () => {
                 updateCardContent(button.dataset.mode);
             });
         });
-
-        // Removed Smart Assistant Toggle logic
-        // smartAssistant.addEventListener('click', () => { /* Removed */ });
 
         // --- Initialization ---
         document.addEventListener('DOMContentLoaded', () => {
