@@ -1,0 +1,1097 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elite SpaceCard 3.0</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.11.0/lottie.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+    <style>
+        :root {
+            --card-width: 340px;
+            --card-height: 550px; /* Adjusted for more vertical space */
+            --dark-bg: #0d1117;
+            --dark-card-bg: rgba(22, 27, 34, 0.7);
+            --dark-border: rgba(50, 100, 150, 0.4);
+            --dark-text: #e6edf3;
+            --dark-neon-glow: #0ff; /* Cyan */
+            --light-bg: #f0f2f5;
+            --light-card-bg: rgba(255, 255, 255, 0.8);
+            --light-border: rgba(150, 150, 150, 0.3);
+            --light-text: #1a202c;
+            --light-neon-glow: #f0f; /* Magenta */
+        }
+
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background-color: var(--dark-bg);
+            color: var(--dark-text);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+            perspective: 1000px; /* For 3D transformations */
+            position: relative;
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+
+        body.light-theme {
+            background-color: var(--light-bg);
+            color: var(--light-text);
+        }
+
+        /* Particle background */
+        .particle-bg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: 0; /* Behind other content */
+        }
+
+        .particle {
+            position: absolute;
+            background-color: rgba(100, 200, 255, 0.7);
+            border-radius: 50%;
+            opacity: 0;
+            animation: particle-fade-in-out 10s infinite;
+            filter: blur(1px);
+        }
+
+        @keyframes particle-fade-in-out {
+            0% {
+                opacity: 0;
+                transform: translate(var(--x, 0), var(--y, 0)) scale(0.5);
+            }
+            50% {
+                opacity: 0.8;
+                transform: translate(var(--x, 0), var(--y, 0)) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(var(--x, 0), var(--y, 0)) scale(0.5);
+            }
+        }
+
+        /* Blurred background layer */
+        .blurred-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(0, 255, 255, 0.05) 0%, transparent 70%);
+            backdrop-filter: blur(50px); /* Increased blur */
+            pointer-events: none;
+            z-index: 1; /* Between particles and card */
+            opacity: 0.8;
+        }
+
+        /* Card container for 3D flip and tilt */
+        .card-container {
+            width: var(--card-width);
+            height: var(--card-height);
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.8s cubic-bezier(0.45, 0, 0.55, 1);
+            z-index: 10;
+        }
+
+        .card {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            transform-style: preserve-3d;
+            backface-visibility: hidden;
+            border-radius: 2rem; /* More rounded */
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5); /* Stronger shadow */
+            transition: background-color 0.5s ease, border-color 0.5s ease;
+        }
+
+        .card-front, .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: var(--dark-card-bg);
+            border: 2px solid var(--dark-border);
+            border-radius: 2rem;
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem;
+            color: var(--dark-text);
+            overflow: hidden; /* Ensure Lottie doesn't overflow */
+        }
+
+        body.light-theme .card-front,
+        body.light-theme .card-back {
+            background: var(--light-card-bg);
+            border: 2px solid var(--light-border);
+        }
+
+        .card-back {
+            transform: rotateY(180deg);
+        }
+
+        .card-container.flipped .card-front {
+            transform: rotateY(-180deg);
+        }
+
+        .card-container.flipped .card-back {
+            transform: rotateY(0deg);
+        }
+
+        /* Lottie Animation in Background */
+        #lottie-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.2; /* Subtle */
+            pointer-events: none;
+        }
+
+        /* Gradient Border Trail/Pulse */
+        .card::before {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            right: -5px;
+            bottom: -5px;
+            background: linear-gradient(45deg, #00ffff, #ff00ff, #00ffff);
+            background-size: 400% 400%;
+            border-radius: 2.2rem; /* Slightly larger than card border-radius */
+            z-index: -2;
+            animation: gradient-pulse 4s ease infinite;
+            filter: blur(10px);
+        }
+
+        @keyframes gradient-pulse {
+            0% { background-position: 0% 50%; opacity: 0.7; }
+            50% { background-position: 100% 50%; opacity: 1; }
+            100% { background-position: 0% 50%; opacity: 0.7; }
+        }
+
+        /* Profile details */
+        .profile-img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 3px solid var(--dark-neon-glow);
+            object-fit: cover;
+            box-shadow: 0 0 15px var(--dark-neon-glow);
+            transition: border-color 0.5s ease, box-shadow 0.5s ease;
+        }
+        body.light-theme .profile-img {
+            border: 3px solid var(--light-neon-glow);
+            box-shadow: 0 0 15px var(--light-neon-glow);
+        }
+
+        .name {
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+        }
+
+        .tagline {
+            font-size: 1.2rem;
+            font-weight: 400;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        body.light-theme .tagline {
+            color: rgba(0, 0, 0, 0.6);
+        }
+
+        .micro-stats span {
+            font-size: 0.9rem;
+            background: rgba(0, 255, 255, 0.1);
+            padding: 0.3rem 0.6rem;
+            border-radius: 0.5rem;
+            margin: 0 0.2rem;
+            border: 1px solid rgba(0, 255, 255, 0.3);
+        }
+        body.light-theme .micro-stats span {
+            background: rgba(255, 0, 255, 0.1);
+            border: 1px solid rgba(255, 0, 255, 0.3);
+        }
+
+        /* Social Icons & Buttons */
+        .social-icons a, .action-button {
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .social-icons a:hover, .action-button:hover {
+            color: var(--dark-neon-glow);
+            text-shadow: 0 0 10px var(--dark-neon-glow);
+        }
+        body.light-theme .social-icons a:hover, body.light-theme .action-button:hover {
+            color: var(--light-neon-glow);
+            text-shadow: 0 0 10px var(--light-neon-glow);
+        }
+
+        .social-icons a::before, .action-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .social-icons a:hover::before, .action-button:hover::before {
+            left: 100%;
+        }
+
+        .action-button {
+            background: rgba(0, 255, 255, 0.2);
+            border: 1px solid rgba(0, 255, 255, 0.5);
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.75rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+        }
+        body.light-theme .action-button {
+            background: rgba(255, 0, 255, 0.2);
+            border: 1px solid rgba(255, 0, 255, 0.5);
+            box-shadow: 0 0 10px rgba(255, 0, 255, 0.3);
+        }
+
+        .action-button:hover {
+            background: rgba(0, 255, 255, 0.4);
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.6);
+        }
+        body.light-theme .action-button:hover {
+            background: rgba(255, 0, 255, 0.4);
+            box-shadow: 0 0 20px rgba(255, 0, 255, 0.6);
+        }
+
+        /* QR Code */
+        #qrCode {
+            width: 150px;
+            height: 150px;
+            background: #fff;
+            padding: 10px;
+            border-radius: 0.5rem;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.4);
+            transition: box-shadow 0.3s ease;
+        }
+        body.light-theme #qrCode {
+            box-shadow: 0 0 15px rgba(255, 0, 255, 0.4);
+        }
+
+        #qrCode:hover {
+            box-shadow: 0 0 25px rgba(0, 255, 255, 0.8);
+        }
+        body.light-theme #qrCode:hover {
+            box-shadow: 0 0 25px rgba(255, 0, 255, 0.8);
+        }
+
+        /* Theme Toggle */
+        .theme-toggle {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 50%;
+            padding: 0.75rem;
+            cursor: pointer;
+            z-index: 20;
+            transition: background 0.3s ease;
+        }
+        body.light-theme .theme-toggle {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        .theme-toggle:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        body.light-theme .theme-toggle:hover {
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        /* Mute Toggle */
+        .mute-toggle {
+            position: absolute;
+            top: 1.5rem;
+            left: 1.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 50%;
+            padding: 0.75rem;
+            cursor: pointer;
+            z-index: 20;
+            transition: background 0.3s ease;
+        }
+        body.light-theme .mute-toggle {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        .mute-toggle:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        body.light-theme .mute-toggle:hover {
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        /* Smart Assistant Icon */
+        .smart-assistant {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--dark-neon-glow);
+            color: var(--dark-bg);
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.8rem;
+            cursor: pointer;
+            box-shadow: 0 0 20px var(--dark-neon-glow);
+            z-index: 30;
+            animation: pulse-glow 2s infinite alternate;
+            transition: background 0.3s ease, color 0.3s ease;
+        }
+        body.light-theme .smart-assistant {
+            background: var(--light-neon-glow);
+            color: var(--light-bg);
+            box-shadow: 0 0 20px var(--light-neon-glow);
+        }
+
+        .smart-assistant:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 30px var(--dark-neon-glow);
+        }
+        body.light-theme .smart-assistant:hover {
+            box-shadow: 0 0 30px var(--light-neon-glow);
+        }
+
+        @keyframes pulse-glow {
+            from { transform: scale(1); opacity: 0.9; }
+            to { transform: scale(1.05); opacity: 1; }
+        }
+
+        /* Chat Stub (simple placeholder) */
+        .chat-stub {
+            position: fixed;
+            bottom: 90px; /* Above the assistant icon */
+            right: 2rem;
+            background: var(--dark-card-bg);
+            border: 1px solid var(--dark-border);
+            border-radius: 1rem;
+            padding: 1rem;
+            max-width: 250px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            display: none; /* Hidden by default */
+            z-index: 29;
+            transform-origin: bottom right;
+            animation: fadeInScale 0.3s ease-out forwards;
+        }
+        body.light-theme .chat-stub {
+            background: var(--light-card-bg);
+            border: 1px solid var(--light-border);
+        }
+
+        @keyframes fadeInScale {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* Tooltip */
+        .tooltip {
+            position: absolute;
+            background: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            padding: 0.4rem 0.8rem;
+            border-radius: 0.5rem;
+            font-size: 0.9rem;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transform: translateY(-10px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            z-index: 50;
+        }
+        .social-icons a:hover .tooltip {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Toast Message */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 255, 255, 0.7);
+            color: #0d1117;
+            padding: 0.8rem 1.5rem;
+            border-radius: 2rem;
+            font-weight: 600;
+            z-index: 100;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+        }
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(-10px);
+        }
+
+        /* Loading Overlay */
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--dark-bg);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 0.5s ease-out;
+        }
+        body.light-theme .loading-overlay {
+            background: var(--light-bg);
+        }
+
+        .loader {
+            width: 80px;
+            height: 80px;
+            border: 8px solid rgba(0, 255, 255, 0.2);
+            border-top: 8px solid var(--dark-neon-glow);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        body.light-theme .loader {
+            border: 8px solid rgba(255, 0, 255, 0.2);
+            border-top: 8px solid var(--light-neon-glow);
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 640px) {
+            :root {
+                --card-width: 90vw;
+                --card-height: 85vh; /* Larger on mobile for better touch */
+            }
+            .card-container {
+                margin: 1.5rem;
+            }
+            .smart-assistant {
+                width: 50px;
+                height: 50px;
+                font-size: 1.5rem;
+                bottom: 1.5rem;
+                right: 1.5rem;
+            }
+            .chat-stub {
+                bottom: 80px;
+                right: 1.5rem;
+            }
+            .theme-toggle, .mute-toggle {
+                padding: 0.5rem;
+                top: 1rem;
+                left: 1rem;
+                right: 1rem;
+            }
+            .theme-toggle {
+                left: unset; /* Reset left for theme toggle */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loader"></div>
+    </div>
+
+    <div class="particle-bg" id="particleBg"></div>
+
+    <div class="blurred-layer"></div>
+
+    <button id="themeToggle" class="theme-toggle">
+        <i class="fas fa-moon text-xl text-white"></i>
+    </button>
+
+    <button id="muteToggle" class="mute-toggle">
+        <i class="fas fa-volume-up text-xl text-white"></i>
+    </button>
+
+    <div class="card-container" id="cardContainer">
+        <div class="card card-front" id="cardFront">
+            <div id="lottie-background"></div>
+            <div class="flex flex-col items-center gap-4 mt-6">
+                <img src="https://avatars.githubusercontent.com/u/74032174?v=4" alt="Profile Picture" class="profile-img" id="profileImage">
+                <h1 class="name" id="profileName">Rajith Raaj</h1>
+                <p class="tagline" id="profileTagline">Chief AI Architect | Innovator | Freelancer</p>
+                <div class="micro-stats flex justify-center gap-2 mt-2">
+                    <span>20+ Projects</span>
+                    <span>10+ Clients</span>
+                </div>
+            </div>
+
+            <div class="flex flex-col items-center gap-4 w-full">
+                <div class="contact-info text-center">
+                    <p class="text-lg"><i class="fas fa-phone mr-2"></i> <span id="phoneNumber" class="cursor-pointer hover:underline"> +91 98765 43210</span></p>
+                    <p class="text-lg mt-2"><i class="fas fa-envelope mr-2"></i> <span id="emailAddress" class="cursor-pointer hover:underline"> contact@rajithraaj.com</span></p>
+                </div>
+
+                <div class="social-icons flex gap-6 text-3xl mt-4">
+                    <a href="https://github.com/rajithraaj" target="_blank" rel="noopener noreferrer" class="relative group">
+                        <i class="fab fa-github"></i>
+                        <span class="tooltip absolute top-full left-1/2 -translate-x-1/2 mt-2 group-hover:opacity-100 group-hover:translate-y-0">GitHub</span>
+                    </a>
+                    <a href="https://linkedin.com/in/rajithraaj" target="_blank" rel="noopener noreferrer" class="relative group">
+                        <i class="fab fa-linkedin"></i>
+                        <span class="tooltip absolute top-full left-1/2 -translate-x-1/2 mt-2 group-hover:opacity-100 group-hover:translate-y-0">LinkedIn</span>
+                    </a>
+                    <a href="https://twitter.com/rajithraaj" target="_blank" rel="noopener noreferrer" class="relative group">
+                        <i class="fab fa-twitter"></i>
+                        <span class="tooltip absolute top-full left-1/2 -translate-x-1/2 mt-2 group-hover:opacity-100 group-hover:translate-y-0">Twitter</span>
+                    </a>
+                    <a href="https://instagram.com/rajithraaj" target="_blank" rel="noopener noreferrer" class="relative group">
+                        <i class="fab fa-instagram"></i>
+                        <span class="tooltip absolute top-full left-1/2 -translate-x-1/2 mt-2 group-hover:opacity-100 group-hover:translate-y-0">Instagram</span>
+                    </a>
+                </div>
+
+                <div class="action-buttons flex flex-wrap justify-center gap-4 mt-6 w-full px-4">
+                    <button class="action-button" id="addToContacts"><i class="fas fa-address-book"></i> Add to Contacts</button>
+                    <button class="action-button" id="shareCard"><i class="fas fa-share-alt"></i> Share Card</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="card card-back" id="cardBack">
+            <h2 class="text-3xl font-bold mb-6 mt-4">Connect with me!</h2>
+            <div id="qrCode" class="flex-shrink-0"></div>
+
+            <div class="flex flex-col items-center gap-4 mt-6">
+                <button class="action-button" id="copyEmailBack"><i class="fas fa-envelope"></i> Copy Email</button>
+                <button class="action-button" id="copyPhoneBack"><i class="fas fa-phone"></i> Copy Phone</button>
+                <button class="action-button" id="saveHomescreen"><i class="fas fa-mobile-alt"></i> Save to Homescreen</button>
+                <div class="profile-mode-switcher flex flex-col items-center gap-3 mt-4">
+                    <p class="text-sm text-gray-400">Switch Mode:</p>
+                    <div class="flex gap-2">
+                        <button class="action-button text-sm px-3 py-1.5" data-mode="Founder">Founder</button>
+                        <button class="action-button text-sm px-3 py-1.5" data-mode="Engineer">Engineer</button>
+                        <button class="action-button text-sm px-3 py-1.5" data-mode="Freelancer">Freelancer</button>
+                        <button class="action-button text-sm px-3 py-1.5" data-mode="Creator">Creator</button>
+                    </div>
+                </div>
+            </div>
+            <p class="text-sm text-gray-500 mt-auto">Elite SpaceCard 3.0</p>
+        </div>
+    </div>
+
+    <div class="smart-assistant" id="smartAssistant">
+        <i class="fas fa-robot"></i>
+    </div>
+
+    <div class="chat-stub" id="chatStub">
+        <p class="text-sm font-semibold">Hello! How can I help you today?</p>
+        <p class="text-xs text-gray-400 mt-2">I'm an AI assistant. Try asking about Rajith's skills or projects.</p>
+        <button class="action-button text-xs mt-3 px-2 py-1" onclick="this.parentElement.style.display='none'">Close</button>
+    </div>
+
+    <div id="toast" class="toast"></div>
+
+    <script>
+        // --- Configuration & Data ---
+        const profileData = {
+            Founder: {
+                name: "Rajith Raaj",
+                tagline: "Visionary Founder | AI Pioneer",
+                phoneNumber: "+91 98765 43210",
+                emailAddress: "contact@rajithraaj.com",
+                microStats: ["3 Startups", "2 Exits", "AI Strategist"],
+                social: {
+                    github: "https://github.com/rajithraaj",
+                    linkedin: "https://linkedin.com/in/rajithraaj",
+                    twitter: "https://twitter.com/rajithraaj",
+                    instagram: "https://instagram.com/rajithraaj"
+                }
+            },
+            Engineer: {
+                name: "Rajith Raaj",
+                tagline: "Senior Software Engineer | Fullstack Dev",
+                phoneNumber: "+91 98765 43210",
+                emailAddress: "dev@rajithraaj.com",
+                microStats: ["20+ Projects", "5 Languages", "Clean Code"],
+                social: {
+                    github: "https://github.com/rajithraaj",
+                    linkedin: "https://linkedin.com/in/rajithraaj-dev", // Example, can be different
+                    twitter: "https://twitter.com/rajithraaj",
+                    instagram: "https://instagram.com/rajithraaj"
+                }
+            },
+            Freelancer: {
+                name: "Rajith Raaj",
+                tagline: "Freelance AI/Web Developer | Consultant",
+                phoneNumber: "+91 98765 43210",
+                emailAddress: "freelance@rajithraaj.com",
+                microStats: ["10+ Clients", "High Impact", "Flexible"],
+                social: {
+                    github: "https://github.com/rajithraaj",
+                    linkedin: "https://linkedin.com/in/rajithraaj",
+                    twitter: "https://twitter.com/rajithraaj",
+                    instagram: "https://instagram.com/rajithraaj"
+                }
+            },
+            Creator: {
+                name: "Rajith Raaj",
+                tagline: "Digital Creator | Content Strategist",
+                phoneNumber: "+91 98765 43210",
+                emailAddress: "creator@rajithraaj.com",
+                microStats: ["50K+ Reach", "Video Production", "Community"],
+                social: {
+                    github: "https://github.com/rajithraaj",
+                    linkedin: "https://linkedin.com/in/rajithraaj",
+                    twitter: "https://twitter.com/rajithraaj",
+                    instagram: "https://instagram.com/rajithraaj"
+                }
+            }
+        };
+
+        let currentMode = 'Founder'; // Default mode
+        let isFlipped = false;
+        let isMuted = false;
+        let voiceIntroPlayed = false;
+
+        // --- DOM Elements ---
+        const loadingOverlay = document.getElementById('loadingOverlay');
+        const cardContainer = document.getElementById('cardContainer');
+        const cardFront = document.getElementById('cardFront');
+        const cardBack = document.getElementById('cardBack');
+        const themeToggle = document.getElementById('themeToggle');
+        const muteToggle = document.getElementById('muteToggle');
+        const smartAssistant = document.getElementById('smartAssistant');
+        const chatStub = document.getElementById('chatStub');
+        const toast = document.getElementById('toast');
+
+        // Profile details
+        const profileImage = document.getElementById('profileImage');
+        const profileName = document.getElementById('profileName');
+        const profileTagline = document.getElementById('profileTagline');
+        const phoneNumberSpan = document.getElementById('phoneNumber');
+        const emailAddressSpan = document.getElementById('emailAddress');
+        const microStatsContainer = document.querySelector('.micro-stats');
+
+        // Action Buttons (Front)
+        const addToContactsBtn = document.getElementById('addToContacts');
+        const shareCardBtn = document.getElementById('shareCard');
+
+        // Action Buttons (Back)
+        const qrCodeDiv = document.getElementById('qrCode');
+        const copyEmailBackBtn = document.getElementById('copyEmailBack');
+        const copyPhoneBackBtn = document.getElementById('copyPhoneBack');
+        const saveHomescreenBtn = document.getElementById('saveHomescreen');
+        const profileModeButtons = document.querySelectorAll('.profile-mode-switcher button');
+        const socialIconsContainer = document.querySelector('.social-icons');
+
+        // --- Utility Functions ---
+
+        // Show Toast Notification
+        function showToast(message) {
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+            triggerHapticFeedback();
+        }
+
+        // Trigger Haptic Feedback (Vibration API)
+        function triggerHapticFeedback() {
+            if (window.navigator && window.navigator.vibrate) {
+                window.navigator.vibrate(50); // Vibrate for 50ms
+            }
+        }
+
+        // Copy to Clipboard
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                showToast("Copied!");
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+                showToast("Failed to copy.");
+            });
+        }
+
+        // Generate QR Code (using Google Charts API)
+        function generateQRCode(text) {
+            const qrUrl = `https://chart.googleapis.com/chart?cht=qr&chs=300x300&chl=${encodeURIComponent(text)}`;
+            qrCodeDiv.innerHTML = `<img src="${qrUrl}" alt="QR Code" class="w-full h-full object-contain">`;
+        }
+
+        // Play Sound
+        function playSound(src, volume = 0.5) {
+            if (isMuted) return;
+            const audio = new Audio(src);
+            audio.volume = volume;
+            audio.play().catch(e => console.warn("Audio play failed:", e));
+        }
+
+        // --- Core Logic ---
+
+        // Update Card Content based on Mode
+        function updateCardContent(mode) {
+            const data = profileData[mode];
+            if (!data) return;
+
+            profileName.textContent = data.name;
+            profileTagline.textContent = data.tagline;
+            phoneNumberSpan.textContent = data.phoneNumber;
+            emailAddressSpan.textContent = data.emailAddress;
+
+            // Update Micro Stats
+            microStatsContainer.innerHTML = '';
+            data.microStats.forEach(stat => {
+                const span = document.createElement('span');
+                span.textContent = stat;
+                microStatsContainer.appendChild(span);
+            });
+
+            // Update Social Links
+            Object.keys(data.social).forEach(key => {
+                const iconElement = socialIconsContainer.querySelector(`.fa-${key}`).closest('a');
+                if (iconElement) {
+                    iconElement.href = data.social[key];
+                }
+            });
+
+            // Regenerate QR Code for current profile
+            const vCardContent = `BEGIN:VCARD\nVERSION:3.0\nFN:${data.name}\nTEL:${data.phoneNumber}\nEMAIL:${data.emailAddress}\nEND:VCARD`;
+            generateQRCode(vCardContent);
+
+            currentMode = mode;
+            showToast(`Switched to ${mode} mode!`);
+            // Update active state for mode buttons
+            profileModeButtons.forEach(button => {
+                if (button.dataset.mode === mode) {
+                    button.classList.add('border-b-2', 'border-blue-400');
+                } else {
+                    button.classList.remove('border-b-2', 'border-blue-400');
+                }
+            });
+        }
+
+        // Card Flip Logic
+        function flipCard() {
+            isFlipped = !isFlipped;
+            if (isFlipped) {
+                cardContainer.classList.add('flipped');
+                playSound('https://assets.mixkit.co/sfx/preview/mixkit-sci-fi-confirmation-2415.mp3', 0.3); // Sci-fi sound
+            } else {
+                cardContainer.classList.remove('flipped');
+                playSound('https://assets.mixkit.co/sfx/preview/mixkit-positive-interface-click-1111.mp3', 0.3);
+            }
+            triggerHapticFeedback();
+        }
+
+        // --- Visual Effects & Animations ---
+
+        // Particle Background Generation
+        function createParticles() {
+            const particleBg = document.getElementById('particleBg');
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                const size = Math.random() * 5 + 2; // 2px to 7px
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.setProperty('--x', `${Math.random() * 100}vw`);
+                particle.style.setProperty('--y', `${Math.random() * 100}vh`);
+                particle.style.animationDelay = `${Math.random() * 10}s`;
+                particleBg.appendChild(particle);
+            }
+        }
+
+        // Lottie Animation
+        function loadLottieAnimation() {
+            lottie.loadAnimation({
+                container: document.getElementById('lottie-background'),
+                renderer: 'svg',
+                loop: true,
+                autoplay: true,
+                path: 'https://assets5.lottiefiles.com/private_files/lf30_jkgk378g.json' // Example: Data Stream / Abstract
+                // You can find more futuristic animations on LottieFiles.com
+                // Or a galaxy vortex: https://assets3.lottiefiles.com/packages/lf20_tpa4k82u.json
+            });
+        }
+
+        // 3D Tilt Effect (using GSAP for smooth animation)
+        function initTiltEffect() {
+            const card = document.querySelector('.card-container');
+            const sensitivity = 0.05; // Adjust for more/less tilt
+
+            document.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const centerX = rect.left + rect.width / 2;
+                const centerY = rect.top + rect.height / 2;
+
+                const rotateX = (e.clientY - centerY) * -sensitivity;
+                const rotateY = (e.clientX - centerX) * sensitivity;
+
+                gsap.to(card, {
+                    rotationX: rotateX,
+                    rotationY: rotateY,
+                    ease: "power2.out",
+                    duration: 0.5
+                });
+            });
+
+            // Reset on mouse leave
+            card.addEventListener('mouseleave', () => {
+                gsap.to(card, {
+                    rotationX: 0,
+                    rotationY: 0,
+                    ease: "elastic.out(1, 0.3)",
+                    duration: 1.5
+                });
+            });
+
+            // Device Orientation for mobile
+            if (window.DeviceOrientationEvent) {
+                window.addEventListener('deviceorientation', function(event) {
+                    const gamma = event.gamma; // In x-axis, -90 to 90
+                    const beta = event.beta;   // In y-axis, -180 to 180
+
+                    // Map gamma/beta to smaller rotation values
+                    const tiltX = (beta / 90) * 10;  // Max 10 degrees
+                    const tiltY = (gamma / 90) * 10; // Max 10 degrees
+
+                    gsap.to(card, {
+                        rotationX: tiltX,
+                        rotationY: tiltY,
+                        ease: "power1.out",
+                        duration: 0.5
+                    });
+                });
+            }
+        }
+
+
+        // --- Event Listeners ---
+
+        // Initial loading sequence
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                loadingOverlay.style.opacity = '0';
+                setTimeout(() => loadingOverlay.style.display = 'none', 500);
+                if (!voiceIntroPlayed && !isMuted) {
+                    const introText = "Welcome to Rajith Raaj's Elite Space Card. Discover your next dimension.";
+                    if ('speechSynthesis' in window) {
+                        const utterance = new SpeechSynthesisUtterance(introText);
+                        utterance.pitch = 1.2;
+                        utterance.rate = 1.1;
+                        utterance.volume = 0.8;
+                        window.speechSynthesis.speak(utterance);
+                        voiceIntroPlayed = true;
+                    }
+                }
+            }, 1000); // Simulate network delay
+        });
+
+        // Theme Toggle
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('light-theme');
+            const isLight = document.body.classList.contains('light-theme');
+            themeToggle.innerHTML = `<i class="fas ${isLight ? 'fa-sun' : 'fa-moon'} text-xl text-white"></i>`;
+            localStorage.setItem('theme', isLight ? 'light' : 'dark');
+            playSound('https://assets.mixkit.co/sfx/preview/mixkit-sci-fi-click-1125.mp3', 0.2);
+        });
+
+        // Mute Toggle
+        muteToggle.addEventListener('click', () => {
+            isMuted = !isMuted;
+            muteToggle.innerHTML = `<i class="fas ${isMuted ? 'fa-volume-mute' : 'fa-volume-up'} text-xl text-white"></i>`;
+            localStorage.setItem('muted', isMuted ? 'true' : 'false');
+            showToast(isMuted ? "Sound Muted" : "Sound Unmuted");
+        });
+
+        // Card Flip on Click/Tap
+        cardContainer.addEventListener('click', (e) => {
+            // Prevent flipping when clicking on specific interactive elements
+            const interactiveElements = ['A', 'BUTTON', 'INPUT', 'SPAN']; // Add more if needed
+            if (e.target.closest(interactiveElements.join(','))) {
+                return;
+            }
+            flipCard();
+        });
+
+        // Swipe Gestures for Flip (using Hammer.js or simpler logic)
+        let touchStartX = 0;
+        cardContainer.addEventListener('touchstart', (e) => {
+            touchStartX = e.touches[0].clientX;
+        });
+
+        cardContainer.addEventListener('touchend', (e) => {
+            const touchEndX = e.changedTouches[0].clientX;
+            const deltaX = touchEndX - touchStartX;
+
+            if (Math.abs(deltaX) > 75) { // Threshold for a swipe
+                flipCard();
+            }
+        });
+
+        // Tap-to-copy for Phone/Email
+        phoneNumberSpan.addEventListener('click', () => copyToClipboard(phoneNumberSpan.textContent.trim()));
+        emailAddressSpan.addEventListener('click', () => copyToClipboard(emailAddressSpan.textContent.trim()));
+        copyEmailBackBtn.addEventListener('click', () => copyToClipboard(emailAddressSpan.textContent.trim()));
+        copyPhoneBackBtn.addEventListener('click', () => copyToClipboard(phoneNumberSpan.textContent.trim()));
+
+
+        // Save as VCF (Add to Contacts)
+        addToContactsBtn.addEventListener('click', () => {
+            const data = profileData[currentMode];
+            const vCardContent = `BEGIN:VCARD
+VERSION:3.0
+FN:${data.name}
+TEL:${data.phoneNumber}
+EMAIL:${data.emailAddress}
+END:VCARD`;
+
+            const blob = new Blob([vCardContent], { type: 'text/vcard' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${data.name.replace(/\s/g, '_')}_EliteSpaceCard.vcf`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            showToast("Contact Saved!");
+            playSound('https://assets.mixkit.co/sfx/preview/mixkit-interface-alarm-tone-998.mp3', 0.4);
+        });
+
+        // Share Card (Web Share API / WhatsApp fallback)
+        shareCardBtn.addEventListener('click', async () => {
+            if (navigator.share) {
+                try {
+                    await navigator.share({
+                        title: `Elite SpaceCard of ${profileData[currentMode].name}`,
+                        text: `Check out my Elite SpaceCard: ${profileData[currentMode].name} - ${profileData[currentMode].tagline}`,
+                        url: window.location.href // Current URL of the card
+                    });
+                    showToast("Card Shared Successfully!");
+                } catch (error) {
+                    console.error('Error sharing:', error);
+                    showToast("Share failed or cancelled.");
+                }
+            } else {
+                // Fallback for browsers not supporting Web Share API (e.g., WhatsApp Web)
+                const text = `Hey, check out my Elite SpaceCard: ${window.location.href}`;
+                const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(text)}`;
+                window.open(whatsappUrl, '_blank');
+                showToast("Opening WhatsApp for sharing...");
+            }
+            triggerHapticFeedback();
+        });
+
+        // Save to Homescreen (Simulate PWA install prompt)
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            // Optionally show a custom "Add to homescreen" button here
+            saveHomescreenBtn.style.display = 'block'; // Make button visible if hidden by default
+        });
+
+        saveHomescreenBtn.addEventListener('click', () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        showToast('Elite SpaceCard added to homescreen!');
+                    } else {
+                        showToast('Installation cancelled.');
+                    }
+                    deferredPrompt = null;
+                });
+            } else {
+                showToast("Not installable or already installed.");
+                // For iOS, guide users to "Add to Home Screen" via browser share menu
+                if (navigator.userAgent.match(/iPhone|iPad|iPod/i)) {
+                    alert("To add this card to your homescreen, use the browser's 'Share' menu and select 'Add to Home Screen'.");
+                }
+            }
+            triggerHapticFeedback();
+        });
+
+        // Profile Mode Switcher
+        profileModeButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                updateCardContent(button.dataset.mode);
+                playSound('https://assets.mixkit.co/sfx/preview/mixkit-fast-sci-fi-click-1129.mp3', 0.2);
+            });
+        });
+
+        // Smart Assistant Toggle
+        smartAssistant.addEventListener('click', () => {
+            chatStub.style.display = chatStub.style.display === 'block' ? 'none' : 'block';
+            playSound('https://assets.mixkit.co/sfx/preview/mixkit-futuristic-software-interface-click-1110.mp3', 0.3);
+        });
+
+
+        // --- Initialization ---
+        document.addEventListener('DOMContentLoaded', () => {
+            createParticles();
+            loadLottieAnimation();
+            initTiltEffect();
+
+            // Apply saved theme
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'light') {
+                document.body.classList.add('light-theme');
+                themeToggle.innerHTML = `<i class="fas fa-sun text-xl text-white"></i>`;
+            } else {
+                // Check system preference
+                if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
+                    document.body.classList.add('light-theme');
+                    themeToggle.innerHTML = `<i class="fas fa-sun text-xl text-white"></i>`;
+                }
+            }
+
+            // Apply saved mute state
+            const savedMute = localStorage.getItem('muted');
+            if (savedMute === 'true') {
+                isMuted = true;
+                muteToggle.innerHTML = `<i class="fas fa-volume-mute text-xl text-white"></i>`;
+            }
+
+            // Initial content load
+            updateCardContent(currentMode);
+        });
+
+    </script>
+</body>
+</html>
