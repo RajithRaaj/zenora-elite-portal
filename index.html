@@ -35,7 +35,8 @@
             color: var(--dark-text);
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: flex-start; /* Changed to flex-start to align items to the top */
+            padding-top: 5vh; /* Added padding to lift the card from the top */
             min-height: 100vh; /* Keep min-height for content, but allow body to stretch fully */
             overflow-y: auto; /* Allow vertical scrolling if content overflows, safer for mobile */
             overflow-x: hidden; /* Prevent horizontal scrolling */
@@ -445,6 +446,7 @@
             }
             body {
                 padding: 1rem; /* Add some padding to prevent content from touching edges */
+                padding-top: 2vh; /* Adjust padding-top for mobile to account for smaller screen */
             }
             .card-container {
                 margin: 0; /* Remove margin as padding is added to body */
