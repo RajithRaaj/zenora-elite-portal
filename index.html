@@ -24,15 +24,21 @@
             --light-text: #1a202c;
             --light-neon-glow: #f0f; /* Magenta */
         }
+        /* Ensure html and body take full height to cover browser UI elements */
+        html {
+            height: 100%;
+        }
         body {
+            height: 100%; /* Ensure body also takes full height */
             font-family: 'Rajdhani', sans-serif;
             background-color: var(--dark-bg);
             color: var(--dark-text);
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
-            overflow: hidden;
+            min-height: 100vh; /* Keep min-height for content, but allow body to stretch fully */
+            overflow-y: auto; /* Allow vertical scrolling if content overflows, safer for mobile */
+            overflow-x: hidden; /* Prevent horizontal scrolling */
             perspective: 1000px; /* For 3D transformations */
             position: relative;
             transition: background-color 0.5s ease, color 0.5s ease;
@@ -91,7 +97,8 @@
             height: var(--card-height);
             position: relative;
             transform-style: preserve-3d;
-            transition: transform 0.8s cubic-bezier(0.45, 0, 0.55, 1);
+            /* Updated transition for a more 'amazing' flip effect */
+            transition: transform 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Ease-out-back for overshoot */
             z-index: 10;
         }
         .card {
@@ -277,8 +284,7 @@
         }
         /* Theme Toggle */
         .theme-toggle {
-            /* Positioned relative to its parent .card-front now */
-            position: absolute; /* Changed to absolute to position relative to .card-front */
+            position: absolute;
             top: 1.5rem;
             right: 1.5rem;
             background: rgba(255, 255, 255, 0.1);
@@ -482,7 +488,6 @@
     </div>
     <div class="particle-bg" id="particleBg"></div>
     <div class="blurred-layer"></div>
-    <!-- Theme Toggle button moved inside the card-front div -->
 
     <div class="card-container" id="cardContainer">
         <div class="card card-front" id="cardFront">
@@ -537,7 +542,7 @@
                 <button class="action-button" id="saveHomescreen"><i class="fas fa-mobile-alt"></i> Save to Homescreen</button>
                 <div class="profile-mode-switcher flex flex-col items-center gap-3 mt-4">
                     <p class="text-sm text-gray-400">Switch Mode:</p>
-                    <div class="flex flex-wrap justify-center gap-2"> <!-- Added flex-wrap and justify-center -->
+                    <div class="flex flex-wrap justify-center gap-2">
                         <button class="action-button text-sm px-3 py-1.5" data-mode="Founder">Founder</button>
                         <button class="action-button text-sm px-3 py-1.5" data-mode="Engineer">Engineer</button>
                         <button class="action-button text-sm px-3 py-1.5" data-mode="Freelancer">Freelancer</button>
