@@ -305,66 +305,8 @@
         body.light-theme .theme-toggle:hover {
             background: rgba(0, 0, 0, 0.2);
         }
-        /* Smart Assistant Icon */
-        .smart-assistant {
-            position: fixed;
-            bottom: 2rem;
-            right: 2rem;
-            background: var(--dark-neon-glow);
-            color: var(--dark-bg);
-            border-radius: 50%;
-            width: 60px;
-            height: 60px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 1.8rem;
-            cursor: pointer;
-            box-shadow: 0 0 20px var(--dark-neon-glow);
-            z-index: 30;
-            animation: pulse-glow 2s infinite alternate;
-            transition: background 0.3s ease, color 0.3s ease;
-        }
-        body.light-theme .smart-assistant {
-            background: var(--light-neon-glow);
-            color: var(--light-bg);
-            box-shadow: 0 0 20px var(--light-neon-glow);
-        }
-        .smart-assistant:hover {
-            transform: scale(1.1);
-            box-shadow: 0 0 30px var(--dark-neon-glow);
-        }
-        body.light-theme .smart-assistant:hover {
-            box-shadow: 0 0 30px var(--light-neon-glow);
-        }
-        @keyframes pulse-glow {
-            from { transform: scale(1); opacity: 0.9; }
-            to { transform: scale(1.05); opacity: 1; }
-        }
-        /* Chat Stub (simple placeholder) */
-        .chat-stub {
-            position: fixed;
-            bottom: 90px; /* Above the assistant icon */
-            right: 2rem;
-            background: var(--dark-card-bg);
-            border: 1px solid var(--dark-border);
-            border-radius: 1rem;
-            padding: 1rem;
-            max-width: 250px;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-            display: none; /* Hidden by default */
-            z-index: 29;
-            transform-origin: bottom right;
-            animation: fadeInScale 0.3s ease-out forwards;
-        }
-        body.light-theme .chat-stub {
-            background: var(--light-card-bg);
-            border: 1px solid var(--light-border);
-        }
-        @keyframes fadeInScale {
-            from { opacity: 0; transform: scale(0.8); }
-            to { opacity: 1; transform: scale(1); }
-        }
+        /* Smart Assistant Icon (removed) */
+        /* Chat Stub (removed) */
         /* Tooltip */
         .tooltip {
             position: absolute;
@@ -451,20 +393,7 @@
             .card-container {
                 margin: 0; /* Remove margin as padding is added to body */
             }
-            .smart-assistant {
-                width: 50px;
-                height: 50px;
-                font-size: 1.5rem;
-                bottom: 1.5rem;
-                right: 1.5rem;
-            }
-            .chat-stub {
-                bottom: 75px; /* Adjust to be above the smaller assistant icon */
-                right: 1.5rem;
-                max-width: 200px; /* Make chat stub smaller */
-                padding: 0.75rem;
-                font-size: 0.8rem;
-            }
+            /* Smart Assistant and Chat Stub styles removed */
             .theme-toggle {
                 padding: 0.6rem; /* Slightly smaller padding for toggle buttons */
                 top: 1rem;
@@ -506,7 +435,8 @@
                     <span>10+ Clients</span>
                 </div>
             </div>
-            <div class="flex flex-col items-center gap-4 w-full">
+            <!-- This flex container controls spacing for contact, social, and action buttons -->
+            <div class="flex flex-col items-center gap-2 w-full"> <!-- Adjusted gap from gap-4 to gap-2 to lift content -->
                 <div class="contact-info text-center">
                     <p class="text-lg"><i class="fas fa-phone mr-2"></i> <span id="phoneNumber" class="cursor-pointer hover:underline"> +91 98765 43210</span></p>
                     <p class="text-lg mt-2"><i class="fas fa-envelope mr-2"></i> <span id="emailAddress" class="cursor-pointer hover:underline"> contact@rajithraaj.com</span></p>
@@ -529,7 +459,7 @@
                         <span class="tooltip absolute top-full left-1/2 -translate-x-1/2 mt-2 group-hover:opacity-100 group-hover:translate-y-0">Instagram</span>
                     </a>
                 </div>
-                <div class="action-buttons flex flex-wrap justify-center gap-4 mt-6 w-full px-4">
+                <div class="action-buttons flex flex-wrap justify-center gap-4 w-full px-4">
                     <button class="action-button" id="addToContacts"><i class="fas fa-address-book"></i> Add to Contacts</button>
                     <button class="action-button" id="shareCard"><i class="fas fa-share-alt"></i> Share Card</button>
                 </div>
@@ -541,7 +471,7 @@
             <div class="flex flex-col items-center gap-4 mt-6">
                 <button class="action-button" id="copyEmailBack"><i class="fas fa-envelope"></i> Copy Email</button>
                 <button class="action-button" id="copyPhoneBack"><i class="fas fa-phone"></i> Copy Phone</button>
-                <button class="action-button" id="saveHomescreen"><i class="fas fa-mobile-alt"></i> Save to Homescreen</button>
+                <!-- Removed 'Save to Homescreen' button -->
                 <div class="profile-mode-switcher flex flex-col items-center gap-3 mt-4">
                     <p class="text-sm text-gray-400">Switch Mode:</p>
                     <div class="flex flex-wrap justify-center gap-2">
@@ -555,14 +485,7 @@
             <p class="text-sm text-gray-500 mt-auto">Elite SpaceCard 3.0</p>
         </div>
     </div>
-    <div class="smart-assistant" id="smartAssistant">
-        <i class="fas fa-robot"></i>
-    </div>
-    <div class="chat-stub" id="chatStub">
-        <p class="text-sm font-semibold">Hello! How can I help you today?</p>
-        <p class="text-xs text-gray-400 mt-2">I'm an AI assistant. Try asking about Rajith's skills or projects.</p>
-        <button class="action-button text-xs mt-3 px-2 py-1" onclick="this.parentElement.style.display='none'">Close</button>
-    </div>
+    <!-- Removed Smart Assistant and Chat Stub divs -->
     <div id="toast" class="toast"></div>
     <script>
         // --- Configuration & Data ---
@@ -629,8 +552,7 @@
         const cardFront = document.getElementById('cardFront');
         const cardBack = document.getElementById('cardBack');
         const themeToggle = document.getElementById('themeToggle');
-        const smartAssistant = document.getElementById('smartAssistant');
-        const chatStub = document.getElementById('chatStub');
+        // Removed smartAssistant and chatStub constants
         const toast = document.getElementById('toast');
         // Profile details
         const profileImage = document.getElementById('profileImage');
@@ -646,7 +568,7 @@
         const qrCodeDiv = document.getElementById('qrCode');
         const copyEmailBackBtn = document.getElementById('copyEmailBack');
         const copyPhoneBackBtn = document.getElementById('copyPhoneBack');
-        const saveHomescreenBtn = document.getElementById('saveHomescreen');
+        // Removed saveHomescreenBtn constant
         const profileModeButtons = document.querySelectorAll('.profile-mode-switcher button');
         const socialIconsContainer = document.querySelector('.social-icons');
 
@@ -781,8 +703,9 @@
         // 3D Tilt Effect (using GSAP for smooth animation)
         function initTiltEffect() {
             const card = document.querySelector('.card-container');
-            const sensitivity = 0.05;
+            const sensitivity = 0.05; // Base sensitivity for mouse
 
+            // Mouse move for desktop
             document.addEventListener('mousemove', (e) => {
                 const rect = card.getBoundingClientRect();
                 const centerX = rect.left + rect.width / 2;
@@ -806,12 +729,15 @@
                 });
             });
 
+            // Device Orientation for mobile (Gyroscope)
             if (window.DeviceOrientationEvent) {
                 window.addEventListener('deviceorientation', function(event) {
-                    const gamma = event.gamma;
-                    const beta = event.beta;
-                    const tiltX = (beta / 90) * 10;
-                    const tiltY = (gamma / 90) * 10;
+                    // event.gamma: left-right tilt (Y-axis rotation) range -90 to 90
+                    // event.beta: front-back tilt (X-axis rotation) range -180 to 180
+                    // Adjust multipliers to make the effect more visible
+                    const tiltX = (event.beta / 90) * 20;  // Increased from 10 to 20 for more noticeable tilt
+                    const tiltY = (event.gamma / 90) * 20; // Increased from 10 to 20 for more noticeable tilt
+
                     gsap.to(card, {
                         rotationX: tiltX,
                         rotationY: tiltY,
@@ -912,39 +838,10 @@ END:VCARD`;
             triggerHapticFeedback();
         });
 
-        // Save to Homescreen (Simulate PWA install prompt)
-        let deferredPrompt;
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-            saveHomescreenBtn.style.display = 'block';
-        });
-        saveHomescreenBtn.addEventListener('click', () => {
-            if (deferredPrompt) {
-                deferredPrompt.prompt();
-                deferredPrompt.userChoice.then((choiceResult) => {
-                    if (choiceResult.outcome === 'accepted') {
-                        showToast('Elite SpaceCard added to homescreen!');
-                    } else {
-                        showToast('Installation cancelled.');
-                    }
-                    deferredPrompt = null;
-                });
-            } else {
-                showToast("Not installable or already installed.");
-                if (navigator.userAgent.match(/iPhone|iPad|iPod/i)) {
-                    const messageBox = document.createElement('div');
-                    messageBox.classList.add('toast', 'show');
-                    messageBox.textContent = "To add this card to your homescreen, use the browser's 'Share' menu and select 'Add to Home Screen'.";
-                    document.body.appendChild(messageBox);
-                    setTimeout(() => {
-                        messageBox.classList.remove('show');
-                        setTimeout(() => document.body.removeChild(messageBox), 300);
-                    }, 5000);
-                }
-            }
-            triggerHapticFeedback();
-        });
+        // Removed Save to Homescreen button logic
+        // let deferredPrompt; // Removed
+        // window.addEventListener('beforeinstallprompt', (e) => { /* Removed */ });
+        // saveHomescreenBtn.addEventListener('click', () => { /* Removed */ });
 
         // Profile Mode Switcher
         profileModeButtons.forEach(button => {
@@ -953,10 +850,8 @@ END:VCARD`;
             });
         });
 
-        // Smart Assistant Toggle
-        smartAssistant.addEventListener('click', () => {
-            chatStub.style.display = chatStub.style.display === 'block' ? 'none' : 'block';
-        });
+        // Removed Smart Assistant Toggle logic
+        // smartAssistant.addEventListener('click', () => { /* Removed */ });
 
         // --- Initialization ---
         document.addEventListener('DOMContentLoaded', () => {
