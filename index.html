@@ -24,7 +24,6 @@
             --light-text: #1a202c;
             --light-neon-glow: #f0f; /* Magenta */
         }
-
         body {
             font-family: 'Rajdhani', sans-serif;
             background-color: var(--dark-bg);
@@ -38,12 +37,10 @@
             position: relative;
             transition: background-color 0.5s ease, color 0.5s ease;
         }
-
         body.light-theme {
             background-color: var(--light-bg);
             color: var(--light-text);
         }
-
         /* Particle background */
         .particle-bg {
             position: absolute;
@@ -53,7 +50,6 @@
             pointer-events: none;
             z-index: 0; /* Behind other content */
         }
-
         .particle {
             position: absolute;
             background-color: rgba(100, 200, 255, 0.7);
@@ -62,7 +58,6 @@
             animation: particle-fade-in-out 10s infinite;
             filter: blur(1px);
         }
-
         @keyframes particle-fade-in-out {
             0% {
                 opacity: 0;
@@ -77,7 +72,6 @@
                 transform: translate(var(--x, 0), var(--y, 0)) scale(0.5);
             }
         }
-
         /* Blurred background layer */
         .blurred-layer {
             position: absolute;
@@ -91,7 +85,6 @@
             z-index: 1; /* Between particles and card */
             opacity: 0.8;
         }
-
         /* Card container for 3D flip and tilt */
         .card-container {
             width: var(--card-width);
@@ -101,7 +94,6 @@
             transition: transform 0.8s cubic-bezier(0.45, 0, 0.55, 1);
             z-index: 10;
         }
-
         .card {
             width: 100%;
             height: 100%;
@@ -112,7 +104,6 @@
             box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5); /* Stronger shadow */
             transition: background-color 0.5s ease, border-color 0.5s ease;
         }
-
         .card-front, .card-back {
             position: absolute;
             width: 100%;
@@ -130,25 +121,20 @@
             color: var(--dark-text);
             overflow: hidden; /* Ensure Lottie doesn't overflow */
         }
-
         body.light-theme .card-front,
         body.light-theme .card-back {
             background: var(--light-card-bg);
             border: 2px solid var(--light-border);
         }
-
         .card-back {
             transform: rotateY(180deg);
         }
-
         .card-container.flipped .card-front {
             transform: rotateY(-180deg);
         }
-
         .card-container.flipped .card-back {
             transform: rotateY(0deg);
         }
-
         /* Lottie Animation in Background */
         #lottie-background {
             position: absolute;
@@ -160,7 +146,6 @@
             opacity: 0.2; /* Subtle */
             pointer-events: none;
         }
-
         /* Gradient Border Trail/Pulse */
         .card::before {
             content: '';
@@ -176,13 +161,11 @@
             animation: gradient-pulse 4s ease infinite;
             filter: blur(10px);
         }
-
         @keyframes gradient-pulse {
             0% { background-position: 0% 50%; opacity: 0.7; }
             50% { background-position: 100% 50%; opacity: 1; }
             100% { background-position: 0% 50%; opacity: 0.7; }
         }
-
         /* Profile details */
         .profile-img {
             width: 120px;
@@ -197,13 +180,11 @@
             border: 3px solid var(--light-neon-glow);
             box-shadow: 0 0 15px var(--light-neon-glow);
         }
-
         .name {
             font-size: 2.5rem;
             font-weight: 700;
             text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
         }
-
         .tagline {
             font-size: 1.2rem;
             font-weight: 400;
@@ -212,7 +193,6 @@
         body.light-theme .tagline {
             color: rgba(0, 0, 0, 0.6);
         }
-
         .micro-stats span {
             font-size: 0.9rem;
             background: rgba(0, 255, 255, 0.1);
@@ -225,14 +205,12 @@
             background: rgba(255, 0, 255, 0.1);
             border: 1px solid rgba(255, 0, 255, 0.3);
         }
-
         /* Social Icons & Buttons */
         .social-icons a, .action-button {
             transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
         }
-
         .social-icons a:hover, .action-button:hover {
             color: var(--dark-neon-glow);
             text-shadow: 0 0 10px var(--dark-neon-glow);
@@ -241,7 +219,6 @@
             color: var(--light-neon-glow);
             text-shadow: 0 0 10px var(--light-neon-glow);
         }
-
         .social-icons a::before, .action-button::before {
             content: '';
             position: absolute;
@@ -252,11 +229,9 @@
             background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
             transition: 0.5s;
         }
-
         .social-icons a:hover::before, .action-button:hover::before {
             left: 100%;
         }
-
         .action-button {
             background: rgba(0, 255, 255, 0.2);
             border: 1px solid rgba(0, 255, 255, 0.5);
@@ -273,7 +248,6 @@
             border: 1px solid rgba(255, 0, 255, 0.5);
             box-shadow: 0 0 10px rgba(255, 0, 255, 0.3);
         }
-
         .action-button:hover {
             background: rgba(0, 255, 255, 0.4);
             box-shadow: 0 0 20px rgba(0, 255, 255, 0.6);
@@ -282,7 +256,6 @@
             background: rgba(255, 0, 255, 0.4);
             box-shadow: 0 0 20px rgba(255, 0, 255, 0.6);
         }
-
         /* QR Code */
         #qrCode {
             width: 150px;
@@ -296,14 +269,12 @@
         body.light-theme #qrCode {
             box-shadow: 0 0 15px rgba(255, 0, 255, 0.4);
         }
-
         #qrCode:hover {
             box-shadow: 0 0 25px rgba(0, 255, 255, 0.8);
         }
         body.light-theme #qrCode:hover {
             box-shadow: 0 0 25px rgba(255, 0, 255, 0.8);
         }
-
         /* Theme Toggle */
         .theme-toggle {
             position: absolute;
@@ -320,38 +291,12 @@
         body.light-theme .theme-toggle {
             background: rgba(0, 0, 0, 0.1);
         }
-
         .theme-toggle:hover {
             background: rgba(255, 255, 255, 0.2);
         }
         body.light-theme .theme-toggle:hover {
             background: rgba(0, 0, 0, 0.2);
         }
-
-        /* Mute Toggle */
-        .mute-toggle {
-            position: absolute;
-            top: 1.5rem;
-            left: 1.5rem;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 50%;
-            padding: 0.75rem;
-            cursor: pointer;
-            z-index: 20;
-            transition: background 0.3s ease;
-        }
-        body.light-theme .mute-toggle {
-            background: rgba(0, 0, 0, 0.1);
-        }
-
-        .mute-toggle:hover {
-            background: rgba(255, 255, 255, 0.2);
-        }
-        body.light-theme .mute-toggle:hover {
-            background: rgba(0, 0, 0, 0.2);
-        }
-
         /* Smart Assistant Icon */
         .smart-assistant {
             position: fixed;
@@ -377,7 +322,6 @@
             color: var(--light-bg);
             box-shadow: 0 0 20px var(--light-neon-glow);
         }
-
         .smart-assistant:hover {
             transform: scale(1.1);
             box-shadow: 0 0 30px var(--dark-neon-glow);
@@ -385,12 +329,10 @@
         body.light-theme .smart-assistant:hover {
             box-shadow: 0 0 30px var(--light-neon-glow);
         }
-
         @keyframes pulse-glow {
             from { transform: scale(1); opacity: 0.9; }
             to { transform: scale(1.05); opacity: 1; }
         }
-
         /* Chat Stub (simple placeholder) */
         .chat-stub {
             position: fixed;
@@ -411,12 +353,10 @@
             background: var(--light-card-bg);
             border: 1px solid var(--light-border);
         }
-
         @keyframes fadeInScale {
             from { opacity: 0; transform: scale(0.8); }
             to { opacity: 1; transform: scale(1); }
         }
-
         /* Tooltip */
         .tooltip {
             position: absolute;
@@ -436,7 +376,6 @@
             opacity: 1;
             transform: translateY(0);
         }
-
         /* Toast Message */
         .toast {
             position: fixed;
@@ -458,7 +397,6 @@
             opacity: 1;
             transform: translateX(-50%) translateY(-10px);
         }
-
         /* Loading Overlay */
         .loading-overlay {
             position: fixed;
@@ -476,7 +414,6 @@
         body.light-theme .loading-overlay {
             background: var(--light-bg);
         }
-
         .loader {
             width: 80px;
             height: 80px;
@@ -489,20 +426,21 @@
             border: 8px solid rgba(255, 0, 255, 0.2);
             border-top: 8px solid var(--light-neon-glow);
         }
-
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
-
         /* Responsive Adjustments */
         @media (max-width: 640px) {
             :root {
                 --card-width: 90vw;
                 --card-height: 85vh; /* Larger on mobile for better touch */
             }
+            body {
+                padding: 1rem; /* Add some padding to prevent content from touching edges */
+            }
             .card-container {
-                margin: 1.5rem;
+                margin: 0; /* Remove margin as padding is added to body */
             }
             .smart-assistant {
                 width: 50px;
@@ -512,38 +450,41 @@
                 right: 1.5rem;
             }
             .chat-stub {
-                bottom: 80px;
+                bottom: 75px; /* Adjust to be above the smaller assistant icon */
                 right: 1.5rem;
-            }
-            .theme-toggle, .mute-toggle {
-                padding: 0.5rem;
-                top: 1rem;
-                left: 1rem;
-                right: 1rem;
+                max-width: 200px; /* Make chat stub smaller */
+                padding: 0.75rem;
+                font-size: 0.8rem;
             }
             .theme-toggle {
-                left: unset; /* Reset left for theme toggle */
+                padding: 0.6rem; /* Slightly smaller padding for toggle buttons */
+                top: 1rem;
+                right: 1rem;
+            }
+            /* Ensure mode buttons wrap correctly */
+            .profile-mode-switcher .flex {
+                flex-direction: row; /* Ensure row direction even if wrapping */
+                flex-wrap: wrap; /* Allow buttons to wrap to next line */
+                justify-content: center; /* Center buttons when wrapped */
+                gap: 0.5rem; /* Reduce gap slightly */
+            }
+            .profile-mode-switcher button {
+                padding: 0.6rem 1rem; /* Adjust padding for smaller buttons */
+                font-size: 0.8rem; /* Smaller font size */
             }
         }
     </style>
 </head>
 <body>
-
     <div class="loading-overlay" id="loadingOverlay">
         <div class="loader"></div>
     </div>
-
     <div class="particle-bg" id="particleBg"></div>
-
     <div class="blurred-layer"></div>
-
     <button id="themeToggle" class="theme-toggle">
         <i class="fas fa-moon text-xl text-white"></i>
     </button>
-
-    <button id="muteToggle" class="mute-toggle">
-        <i class="fas fa-volume-up text-xl text-white"></i>
-    </button>
+    <!-- Mute Toggle button removed as per request -->
 
     <div class="card-container" id="cardContainer">
         <div class="card card-front" id="cardFront">
@@ -557,13 +498,11 @@
                     <span>10+ Clients</span>
                 </div>
             </div>
-
             <div class="flex flex-col items-center gap-4 w-full">
                 <div class="contact-info text-center">
                     <p class="text-lg"><i class="fas fa-phone mr-2"></i> <span id="phoneNumber" class="cursor-pointer hover:underline"> +91 98765 43210</span></p>
                     <p class="text-lg mt-2"><i class="fas fa-envelope mr-2"></i> <span id="emailAddress" class="cursor-pointer hover:underline"> contact@rajithraaj.com</span></p>
                 </div>
-
                 <div class="social-icons flex gap-6 text-3xl mt-4">
                     <a href="https://github.com/rajithraaj" target="_blank" rel="noopener noreferrer" class="relative group">
                         <i class="fab fa-github"></i>
@@ -582,25 +521,22 @@
                         <span class="tooltip absolute top-full left-1/2 -translate-x-1/2 mt-2 group-hover:opacity-100 group-hover:translate-y-0">Instagram</span>
                     </a>
                 </div>
-
                 <div class="action-buttons flex flex-wrap justify-center gap-4 mt-6 w-full px-4">
                     <button class="action-button" id="addToContacts"><i class="fas fa-address-book"></i> Add to Contacts</button>
                     <button class="action-button" id="shareCard"><i class="fas fa-share-alt"></i> Share Card</button>
                 </div>
             </div>
         </div>
-
         <div class="card card-back" id="cardBack">
             <h2 class="text-3xl font-bold mb-6 mt-4">Connect with me!</h2>
             <div id="qrCode" class="flex-shrink-0"></div>
-
             <div class="flex flex-col items-center gap-4 mt-6">
                 <button class="action-button" id="copyEmailBack"><i class="fas fa-envelope"></i> Copy Email</button>
                 <button class="action-button" id="copyPhoneBack"><i class="fas fa-phone"></i> Copy Phone</button>
                 <button class="action-button" id="saveHomescreen"><i class="fas fa-mobile-alt"></i> Save to Homescreen</button>
                 <div class="profile-mode-switcher flex flex-col items-center gap-3 mt-4">
                     <p class="text-sm text-gray-400">Switch Mode:</p>
-                    <div class="flex gap-2">
+                    <div class="flex flex-wrap justify-center gap-2"> <!-- Added flex-wrap and justify-center -->
                         <button class="action-button text-sm px-3 py-1.5" data-mode="Founder">Founder</button>
                         <button class="action-button text-sm px-3 py-1.5" data-mode="Engineer">Engineer</button>
                         <button class="action-button text-sm px-3 py-1.5" data-mode="Freelancer">Freelancer</button>
@@ -611,19 +547,15 @@
             <p class="text-sm text-gray-500 mt-auto">Elite SpaceCard 3.0</p>
         </div>
     </div>
-
     <div class="smart-assistant" id="smartAssistant">
         <i class="fas fa-robot"></i>
     </div>
-
     <div class="chat-stub" id="chatStub">
         <p class="text-sm font-semibold">Hello! How can I help you today?</p>
         <p class="text-xs text-gray-400 mt-2">I'm an AI assistant. Try asking about Rajith's skills or projects.</p>
         <button class="action-button text-xs mt-3 px-2 py-1" onclick="this.parentElement.style.display='none'">Close</button>
     </div>
-
     <div id="toast" class="toast"></div>
-
     <script>
         // --- Configuration & Data ---
         const profileData = {
@@ -680,11 +612,8 @@
                 }
             }
         };
-
         let currentMode = 'Founder'; // Default mode
         let isFlipped = false;
-        let isMuted = false;
-        let voiceIntroPlayed = false;
 
         // --- DOM Elements ---
         const loadingOverlay = document.getElementById('loadingOverlay');
@@ -692,11 +621,10 @@
         const cardFront = document.getElementById('cardFront');
         const cardBack = document.getElementById('cardBack');
         const themeToggle = document.getElementById('themeToggle');
-        const muteToggle = document.getElementById('muteToggle');
+        // Removed muteToggle as per request
         const smartAssistant = document.getElementById('smartAssistant');
         const chatStub = document.getElementById('chatStub');
         const toast = document.getElementById('toast');
-
         // Profile details
         const profileImage = document.getElementById('profileImage');
         const profileName = document.getElementById('profileName');
@@ -704,11 +632,9 @@
         const phoneNumberSpan = document.getElementById('phoneNumber');
         const emailAddressSpan = document.getElementById('emailAddress');
         const microStatsContainer = document.querySelector('.micro-stats');
-
         // Action Buttons (Front)
         const addToContactsBtn = document.getElementById('addToContacts');
         const shareCardBtn = document.getElementById('shareCard');
-
         // Action Buttons (Back)
         const qrCodeDiv = document.getElementById('qrCode');
         const copyEmailBackBtn = document.getElementById('copyEmailBack');
@@ -718,7 +644,6 @@
         const socialIconsContainer = document.querySelector('.social-icons');
 
         // --- Utility Functions ---
-
         // Show Toast Notification
         function showToast(message) {
             toast.textContent = message;
@@ -738,12 +663,21 @@
 
         // Copy to Clipboard
         function copyToClipboard(text) {
-            navigator.clipboard.writeText(text).then(() => {
+            // Using document.execCommand('copy') for better iframe compatibility
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            textarea.style.position = 'fixed'; // Prevents scrolling to bottom of page
+            document.body.appendChild(textarea);
+            textarea.focus();
+            textarea.select();
+            try {
+                document.execCommand('copy');
                 showToast("Copied!");
-            }).catch(err => {
+            } catch (err) {
                 console.error('Failed to copy: ', err);
                 showToast("Failed to copy.");
-            });
+            }
+            document.body.removeChild(textarea);
         }
 
         // Generate QR Code (using Google Charts API)
@@ -752,21 +686,11 @@
             qrCodeDiv.innerHTML = `<img src="${qrUrl}" alt="QR Code" class="w-full h-full object-contain">`;
         }
 
-        // Play Sound
-        function playSound(src, volume = 0.5) {
-            if (isMuted) return;
-            const audio = new Audio(src);
-            audio.volume = volume;
-            audio.play().catch(e => console.warn("Audio play failed:", e));
-        }
-
         // --- Core Logic ---
-
         // Update Card Content based on Mode
         function updateCardContent(mode) {
             const data = profileData[mode];
             if (!data) return;
-
             profileName.textContent = data.name;
             profileTagline.textContent = data.tagline;
             phoneNumberSpan.textContent = data.phoneNumber;
@@ -782,24 +706,30 @@
 
             // Update Social Links
             Object.keys(data.social).forEach(key => {
-                const iconElement = socialIconsContainer.querySelector(`.fa-${key}`).closest('a');
+                const iconElement = socialIconsContainer.querySelector(`.fa-${key}`);
                 if (iconElement) {
-                    iconElement.href = data.social[key];
+                    // Find the parent <a> tag and update its href
+                    const anchorElement = iconElement.closest('a');
+                    if (anchorElement) {
+                        anchorElement.href = data.social[key];
+                    }
                 }
             });
 
             // Regenerate QR Code for current profile
             const vCardContent = `BEGIN:VCARD\nVERSION:3.0\nFN:${data.name}\nTEL:${data.phoneNumber}\nEMAIL:${data.emailAddress}\nEND:VCARD`;
             generateQRCode(vCardContent);
-
             currentMode = mode;
             showToast(`Switched to ${mode} mode!`);
+
             // Update active state for mode buttons
             profileModeButtons.forEach(button => {
                 if (button.dataset.mode === mode) {
                     button.classList.add('border-b-2', 'border-blue-400');
+                    button.classList.remove('border-transparent'); // Ensure no other border is there
                 } else {
                     button.classList.remove('border-b-2', 'border-blue-400');
+                    button.classList.add('border-transparent'); // Default non-active state
                 }
             });
         }
@@ -809,16 +739,13 @@
             isFlipped = !isFlipped;
             if (isFlipped) {
                 cardContainer.classList.add('flipped');
-                playSound('https://assets.mixkit.co/sfx/preview/mixkit-sci-fi-confirmation-2415.mp3', 0.3); // Sci-fi sound
             } else {
                 cardContainer.classList.remove('flipped');
-                playSound('https://assets.mixkit.co/sfx/preview/mixkit-positive-interface-click-1111.mp3', 0.3);
             }
             triggerHapticFeedback();
         }
 
         // --- Visual Effects & Animations ---
-
         // Particle Background Generation
         function createParticles() {
             const particleBg = document.getElementById('particleBg');
@@ -843,8 +770,6 @@
                 loop: true,
                 autoplay: true,
                 path: 'https://assets5.lottiefiles.com/private_files/lf30_jkgk378g.json' // Example: Data Stream / Abstract
-                // You can find more futuristic animations on LottieFiles.com
-                // Or a galaxy vortex: https://assets3.lottiefiles.com/packages/lf20_tpa4k82u.json
             });
         }
 
@@ -853,14 +778,13 @@
             const card = document.querySelector('.card-container');
             const sensitivity = 0.05; // Adjust for more/less tilt
 
+            // Mouse move for desktop
             document.addEventListener('mousemove', (e) => {
                 const rect = card.getBoundingClientRect();
                 const centerX = rect.left + rect.width / 2;
                 const centerY = rect.top + rect.height / 2;
-
                 const rotateX = (e.clientY - centerY) * -sensitivity;
                 const rotateY = (e.clientX - centerX) * sensitivity;
-
                 gsap.to(card, {
                     rotationX: rotateX,
                     rotationY: rotateY,
@@ -884,11 +808,9 @@
                 window.addEventListener('deviceorientation', function(event) {
                     const gamma = event.gamma; // In x-axis, -90 to 90
                     const beta = event.beta;   // In y-axis, -180 to 180
-
                     // Map gamma/beta to smaller rotation values
                     const tiltX = (beta / 90) * 10;  // Max 10 degrees
                     const tiltY = (gamma / 90) * 10; // Max 10 degrees
-
                     gsap.to(card, {
                         rotationX: tiltX,
                         rotationY: tiltY,
@@ -899,25 +821,12 @@
             }
         }
 
-
         // --- Event Listeners ---
-
         // Initial loading sequence
         window.addEventListener('load', () => {
             setTimeout(() => {
                 loadingOverlay.style.opacity = '0';
                 setTimeout(() => loadingOverlay.style.display = 'none', 500);
-                if (!voiceIntroPlayed && !isMuted) {
-                    const introText = "Welcome to Rajith Raaj's Elite Space Card. Discover your next dimension.";
-                    if ('speechSynthesis' in window) {
-                        const utterance = new SpeechSynthesisUtterance(introText);
-                        utterance.pitch = 1.2;
-                        utterance.rate = 1.1;
-                        utterance.volume = 0.8;
-                        window.speechSynthesis.speak(utterance);
-                        voiceIntroPlayed = true;
-                    }
-                }
             }, 1000); // Simulate network delay
         });
 
@@ -927,37 +836,28 @@
             const isLight = document.body.classList.contains('light-theme');
             themeToggle.innerHTML = `<i class="fas ${isLight ? 'fa-sun' : 'fa-moon'} text-xl text-white"></i>`;
             localStorage.setItem('theme', isLight ? 'light' : 'dark');
-            playSound('https://assets.mixkit.co/sfx/preview/mixkit-sci-fi-click-1125.mp3', 0.2);
-        });
-
-        // Mute Toggle
-        muteToggle.addEventListener('click', () => {
-            isMuted = !isMuted;
-            muteToggle.innerHTML = `<i class="fas ${isMuted ? 'fa-volume-mute' : 'fa-volume-up'} text-xl text-white"></i>`;
-            localStorage.setItem('muted', isMuted ? 'true' : 'false');
-            showToast(isMuted ? "Sound Muted" : "Sound Unmuted");
         });
 
         // Card Flip on Click/Tap
         cardContainer.addEventListener('click', (e) => {
             // Prevent flipping when clicking on specific interactive elements
-            const interactiveElements = ['A', 'BUTTON', 'INPUT', 'SPAN']; // Add more if needed
-            if (e.target.closest(interactiveElements.join(','))) {
+            // Ensure the click did not originate from within an interactive element.
+            const interactiveElements = ['A', 'BUTTON', 'INPUT', 'SPAN', 'P'];
+            if (e.target.closest(interactiveElements.map(tag => tag.toLowerCase()).join(','))) {
                 return;
             }
             flipCard();
         });
 
-        // Swipe Gestures for Flip (using Hammer.js or simpler logic)
+        // Swipe Gestures for Flip
         let touchStartX = 0;
         cardContainer.addEventListener('touchstart', (e) => {
             touchStartX = e.touches[0].clientX;
-        });
+        }, { passive: true }); // Use passive listener for better scroll performance
 
         cardContainer.addEventListener('touchend', (e) => {
             const touchEndX = e.changedTouches[0].clientX;
             const deltaX = touchEndX - touchStartX;
-
             if (Math.abs(deltaX) > 75) { // Threshold for a swipe
                 flipCard();
             }
@@ -969,7 +869,6 @@
         copyEmailBackBtn.addEventListener('click', () => copyToClipboard(emailAddressSpan.textContent.trim()));
         copyPhoneBackBtn.addEventListener('click', () => copyToClipboard(phoneNumberSpan.textContent.trim()));
 
-
         // Save as VCF (Add to Contacts)
         addToContactsBtn.addEventListener('click', () => {
             const data = profileData[currentMode];
@@ -979,7 +878,6 @@ FN:${data.name}
 TEL:${data.phoneNumber}
 EMAIL:${data.emailAddress}
 END:VCARD`;
-
             const blob = new Blob([vCardContent], { type: 'text/vcard' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
@@ -990,7 +888,6 @@ END:VCARD`;
             document.body.removeChild(a);
             URL.revokeObjectURL(url);
             showToast("Contact Saved!");
-            playSound('https://assets.mixkit.co/sfx/preview/mixkit-interface-alarm-tone-998.mp3', 0.4);
         });
 
         // Share Card (Web Share API / WhatsApp fallback)
@@ -1025,7 +922,6 @@ END:VCARD`;
             // Optionally show a custom "Add to homescreen" button here
             saveHomescreenBtn.style.display = 'block'; // Make button visible if hidden by default
         });
-
         saveHomescreenBtn.addEventListener('click', () => {
             if (deferredPrompt) {
                 deferredPrompt.prompt();
@@ -1041,7 +937,15 @@ END:VCARD`;
                 showToast("Not installable or already installed.");
                 // For iOS, guide users to "Add to Home Screen" via browser share menu
                 if (navigator.userAgent.match(/iPhone|iPad|iPod/i)) {
-                    alert("To add this card to your homescreen, use the browser's 'Share' menu and select 'Add to Home Screen'.");
+                    // Using a custom message box instead of alert()
+                    const messageBox = document.createElement('div');
+                    messageBox.classList.add('toast', 'show'); // Reuse toast styles for simplicity
+                    messageBox.textContent = "To add this card to your homescreen, use the browser's 'Share' menu and select 'Add to Home Screen'.";
+                    document.body.appendChild(messageBox);
+                    setTimeout(() => {
+                        messageBox.classList.remove('show');
+                        setTimeout(() => document.body.removeChild(messageBox), 300);
+                    }, 5000); // Display for 5 seconds
                 }
             }
             triggerHapticFeedback();
@@ -1051,16 +955,13 @@ END:VCARD`;
         profileModeButtons.forEach(button => {
             button.addEventListener('click', () => {
                 updateCardContent(button.dataset.mode);
-                playSound('https://assets.mixkit.co/sfx/preview/mixkit-fast-sci-fi-click-1129.mp3', 0.2);
             });
         });
 
         // Smart Assistant Toggle
         smartAssistant.addEventListener('click', () => {
             chatStub.style.display = chatStub.style.display === 'block' ? 'none' : 'block';
-            playSound('https://assets.mixkit.co/sfx/preview/mixkit-futuristic-software-interface-click-1110.mp3', 0.3);
         });
-
 
         // --- Initialization ---
         document.addEventListener('DOMContentLoaded', () => {
@@ -1080,18 +981,11 @@ END:VCARD`;
                     themeToggle.innerHTML = `<i class="fas fa-sun text-xl text-white"></i>`;
                 }
             }
-
-            // Apply saved mute state
-            const savedMute = localStorage.getItem('muted');
-            if (savedMute === 'true') {
-                isMuted = true;
-                muteToggle.innerHTML = `<i class="fas fa-volume-mute text-xl text-white"></i>`;
-            }
+            // Mute state logic removed as per request
 
             // Initial content load
             updateCardContent(currentMode);
         });
-
     </script>
 </body>
 </html>
